@@ -1,0 +1,31 @@
+@layer base {
+  .lemon-meringue {
+    --background: 51 82% 78%;
+    --foreground: 96 46% 53%;
+    --card: 0 0% 100%;
+    --card-foreground: 96 46% 53%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 96 46% 53%;
+    --primary: 187 66% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 44 87% 58%;
+    --secondary-foreground: 96 46% 53%;
+    --muted: 51 82% 78%;
+    --muted-foreground: 96 20% 63%;
+    --accent: 192 54% 70%;
+    --accent-foreground: 96 46% 53%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 51 50% 68%;
+    --input: 51 50% 68%;
+    --ring: 187 66% 54%;
+    --sidebar-background: 96 46% 53%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 96 46% 53%;
+    --sidebar-accent: 44 87% 58%;
+    --sidebar-accent-foreground: 96 46% 53%;
+    --sidebar-border: 96 46% 43%;
+    --sidebar-ring: 44 87% 58%;
+  }
+}

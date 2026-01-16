@@ -1,0 +1,31 @@
+@layer base {
+  .mono {
+    --background: 0 0% 90.2%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 0 0% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 60%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 90.2%;
+    --muted-foreground: 0 0% 30%;
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --ring: 0 0% 40%;
+    --sidebar-background: 0 0% 12.2%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 12.2%;
+    --sidebar-accent: 0 0% 40%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 22.2%;
+    --sidebar-ring: 0 0% 40%;
+  }
+}

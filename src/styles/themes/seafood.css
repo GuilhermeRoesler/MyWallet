@@ -1,0 +1,31 @@
+@layer base {
+  .seafood {
+    --background: 9 100% 95%;
+    --foreground: 208 9% 26%;
+    --card: 0 0% 100%;
+    --card-foreground: 208 9% 26%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 208 9% 26%;
+    --primary: 15 54% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 329 24% 48%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 9 100% 95%;
+    --muted-foreground: 208 5% 46%;
+    --accent: 76 23% 43%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 9 50% 85%;
+    --input: 9 50% 85%;
+    --ring: 15 54% 57%;
+    --sidebar-background: 208 9% 26%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 208 9% 26%;
+    --sidebar-accent: 15 54% 57%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 208 9% 16%;
+    --sidebar-ring: 15 54% 57%;
+  }
+}

@@ -1,0 +1,31 @@
+@layer base {
+  .retro {
+    --background: 220 96% 82%;
+    --foreground: 236 43% 23%;
+    --card: 0 0% 100%;
+    --card-foreground: 236 43% 23%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 236 43% 23%;
+    --primary: 21 89% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 41 92% 57%;
+    --secondary-foreground: 236 43% 23%;
+    --muted: 220 96% 82%;
+    --muted-foreground: 236 20% 43%;
+    --accent: 221 76% 55%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 50% 72%;
+    --input: 220 50% 72%;
+    --ring: 21 89% 52%;
+    --sidebar-background: 236 43% 23%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 236 43% 23%;
+    --sidebar-accent: 41 92% 57%;
+    --sidebar-accent-foreground: 236 43% 23%;
+    --sidebar-border: 236 43% 13%;
+    --sidebar-ring: 41 92% 57%;
+  }
+}

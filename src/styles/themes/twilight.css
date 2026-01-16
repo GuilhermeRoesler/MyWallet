@@ -1,0 +1,31 @@
+@layer base {
+  .twilight {
+    --background: 28 88% 95%;
+    --foreground: 341 76% 40%;
+    --card: 0 0% 100%;
+    --card-foreground: 341 76% 40%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 341 76% 40%;
+    --primary: 13 89% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 33 93% 58%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 28 88% 95%;
+    --muted-foreground: 341 30% 60%;
+    --accent: 43 89% 64%;
+    --accent-foreground: 341 76% 40%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 28 50% 85%;
+    --input: 28 50% 85%;
+    --ring: 13 89% 58%;
+    --sidebar-background: 341 76% 40%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 341 76% 40%;
+    --sidebar-accent: 13 89% 58%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 341 76% 30%;
+    --sidebar-ring: 13 89% 58%;
+  }
+}

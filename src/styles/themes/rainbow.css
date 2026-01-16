@@ -1,0 +1,31 @@
+@layer base {
+  .rainbow {
+    --background: 0 0% 96.1%;
+    --foreground: 0 0% 20%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+    --primary: 258 70% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 280 73% 57%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 53.3%;
+    --accent: 311 69% 61%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 334 79% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 87.8%;
+    --input: 0 0% 87.8%;
+    --ring: 258 70% 53%;
+    --sidebar-background: 223 57% 53%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 223 57% 53%;
+    --sidebar-accent: 42 86% 55%;
+    --sidebar-accent-foreground: 0 0% 20%;
+    --sidebar-border: 223 52% 42%;
+    --sidebar-ring: 42 86% 55%;
+  }
+}

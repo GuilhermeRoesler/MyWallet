@@ -1,0 +1,31 @@
+@layer base {
+  .neon {
+    --background: 316 96% 8%;
+    --foreground: 311 98% 67%;
+    --card: 283 100% 19%;
+    --card-foreground: 311 98% 67%;
+    --popover: 283 100% 19%;
+    --popover-foreground: 311 98% 67%;
+    --primary: 193 98% 47%;
+    --primary-foreground: 316 96% 8%;
+    --secondary: 283 80% 44%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 283 100% 19%;
+    --muted-foreground: 311 50% 57%;
+    --accent: 311 98% 67%;
+    --accent-foreground: 316 96% 8%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 283 100% 29%;
+    --input: 283 100% 29%;
+    --ring: 193 98% 47%;
+    --sidebar-background: 283 100% 19%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 283 100% 19%;
+    --sidebar-accent: 193 98% 47%;
+    --sidebar-accent-foreground: 316 96% 8%;
+    --sidebar-border: 283 100% 9%;
+    --sidebar-ring: 193 98% 47%;
+  }
+}

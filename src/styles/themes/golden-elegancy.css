@@ -1,0 +1,31 @@
+@layer base {
+  .golden-elegancy {
+    --background: 0 0% 96.1%;
+    --foreground: 0 0% 1.6%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 1.6%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 1.6%;
+    --primary: 26 90% 41%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 38 95% 68%;
+    --secondary-foreground: 0 0% 1.6%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 31.6%;
+    --accent: 210 8% 47%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 86.1%;
+    --input: 0 0% 86.1%;
+    --ring: 26 90% 41%;
+    --sidebar-background: 0 0% 1.6%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 0 0% 1.6%;
+    --sidebar-accent: 38 95% 68%;
+    --sidebar-accent-foreground: 0 0% 1.6%;
+    --sidebar-border: 0 0% 11.6%;
+    --sidebar-ring: 38 95% 68%;
+  }
+}

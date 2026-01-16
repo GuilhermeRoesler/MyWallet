@@ -1,0 +1,75 @@
+# My Wallet
+
+Aplicação frontend de gestão financeira pessoal, pensada como **portfólio / demo**: sem backend, sem banco remoto. Os dados ficam no **localStorage** do navegador, organizados em **projetos** isolados.
+
+![](public/demo.png)
+
+## Visão geral
+
+- Hub inicial para criar, editar, abrir e excluir projetos (CRUD completo)
+- Projeto **demo** padrão com contas, transações e orçamentos de exemplo
+- Dashboard por projeto: overview, contas, transações, orçamentos, relatórios e settings
+- Persistência 100% local (localStorage)
+- Deploy automático no **GitHub Pages**
+
+## Stack
+
+- React 19 + Vite 8 + TypeScript
+- Tailwind CSS 4 + Shadcn UI
+- Zustand (estado + persistência local)
+- Recharts, React Hook Form, Zod
+
+## Começar localmente
+
+```bash
+npm install
+npm run dev
+```
+
+Abra `http://localhost:8080`. Na primeira visita um projeto demo é criado automaticamente.
+
+```bash
+npm run build    # gera dist/
+npm run preview  # pré-visualiza o build
+```
+
+Para simular o base path do GitHub Pages:
+
+```bash
+VITE_BASE_PATH=/MyWallet/ npm run build
+VITE_BASE_PATH=/MyWallet/ npm run preview
+```
+
+## GitHub Pages
+
+O workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) faz build e publish em todo push na `main`.
+
+1. No repositório GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**
+2. Após o primeiro deploy bem-sucedido, a app fica em:  
+   `https://guilhermeroesler.github.io/MyWallet/`
+
+O build usa `VITE_BASE_PATH=/MyWallet/` (nome do repositório no GitHub) e copia `index.html` → `404.html` para o fallback de rotas SPA.
+
+## Modelo de dados (localStorage)
+
+Chave: `my-wallet:projects`
+
+Cada projeto contém:
+
+- metadados (`name`, `description`, `isDemo`, timestamps)
+- `settings` (nome, moeda, preferências)
+- `accounts`, `transactions`, `budgets`
+
+O dashboard (overview, spent dos orçamentos, gráficos) é **calculado no cliente** a partir desses dados.
+
+## Estrutura
+
+- `src/pages/ProjectsPage.tsx` — hub de projetos
+- `src/store/projectStore.ts` — CRUD de projetos
+- `src/store/dashboardStore.ts` — CRUD financeiro do projeto ativo
+- `src/lib/demo-data.ts` — seed do projeto demo
+- `src/lib/compute.ts` — agregações do dashboard
+
+## Licença
+
+Projeto de demonstração e portfólio.

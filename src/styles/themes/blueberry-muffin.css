@@ -1,0 +1,31 @@
+@layer base {
+  .blueberry-muffin {
+    --background: 208 93% 94%;
+    --foreground: 206 98% 25%;
+    --card: 0 0% 100%;
+    --card-foreground: 206 98% 25%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 206 98% 25%;
+    --primary: 198 98% 38%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 305 28% 64%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 208 93% 94%;
+    --muted-foreground: 206 40% 45%;
+    --accent: 96 45% 53%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 208 50% 84%;
+    --input: 208 50% 84%;
+    --ring: 198 98% 38%;
+    --sidebar-background: 206 98% 25%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 206 98% 25%;
+    --sidebar-accent: 305 28% 64%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 206 98% 15%;
+    --sidebar-ring: 305 28% 64%;
+  }
+}

@@ -1,0 +1,31 @@
+@layer base {
+  .pastel-yellow-purple {
+    --background: 36 100% 81%;
+    --foreground: 236 33% 35%;
+    --card: 0 0% 100%;
+    --card-foreground: 236 33% 35%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 236 33% 35%;
+    --primary: 329 34% 56%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 355 74% 74%;
+    --secondary-foreground: 236 33% 35%;
+    --muted: 36 100% 81%;
+    --muted-foreground: 236 20% 55%;
+    --accent: 305 24% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 36 50% 71%;
+    --input: 36 50% 71%;
+    --ring: 329 34% 56%;
+    --sidebar-background: 236 33% 35%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 236 33% 35%;
+    --sidebar-accent: 36 100% 81%;
+    --sidebar-accent-foreground: 236 33% 35%;
+    --sidebar-border: 236 33% 25%;
+    --sidebar-ring: 36 100% 81%;
+  }
+}

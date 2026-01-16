@@ -1,0 +1,38 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@config "../tailwind.config.ts";
+
+@import "./styles/themes/light.css";
+@import "./styles/themes/dark.css";
+@import "./styles/themes/sunset.css";
+@import "./styles/themes/mint.css";
+@import "./styles/themes/lavender.css";
+@import "./styles/themes/rainbow.css";
+@import "./styles/themes/leaves.css";
+@import "./styles/themes/lemon.css";
+@import "./styles/themes/soft.css";
+@import "./styles/themes/mono.css";
+@import "./styles/themes/twilight.css";
+@import "./styles/themes/blueberry.css";
+@import "./styles/themes/golden-elegancy.css";
+@import "./styles/themes/blue-frog.css";
+@import "./styles/themes/neon.css";
+@import "./styles/themes/pastel-yellow-purple.css";
+@import "./styles/themes/pastel-green-blue.css";
+@import "./styles/themes/seafood.css";
+@import "./styles/themes/retro.css";
+@import "./styles/themes/warm-sun.css";
+@import "./styles/themes/old-street.css";
+@import "./styles/themes/strawberry-shortcake.css";
+@import "./styles/themes/lemon-meringue.css";
+@import "./styles/themes/blueberry-muffin.css";
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

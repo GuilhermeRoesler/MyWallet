@@ -1,0 +1,28 @@
+export const themes = [
+  { name: "Default", value: "light" },
+  { name: "Midnight", value: "dark" },
+  { name: "Sunset", value: "sunset" },
+  { name: "Mint", value: "mint" },
+  { name: "Lavender", value: "lavender" },
+  { name: "Rainbow", value: "rainbow" },
+  { name: "Leaves", value: "leaves" },
+  { name: "Lemon", value: "lemon" },
+  { name: "Soft", value: "soft" },
+  { name: "Mono", value: "mono" },
+  { name: "Twilight", value: "twilight" },
+  { name: "Blueberry", value: "blueberry" },
+  { name: "Golden Elegancy", value: "golden-elegancy" },
+  { name: "Blue Frog", value: "blue-frog" },
+  { name: "Neon", value: "neon" },
+  { name: "Pastel Yellow-Purple", value: "pastel-yellow-purple" },
+  { name: "Pastel Green-Blue", value: "pastel-green-blue" },
+  { name: "Seafood", value: "seafood" },
+  { name: "Retro", value: "retro" },
+  { name: "Warm Sun", value: "warm-sun" },
+  { name: "Old Street", value: "old-street" },
+  { name: "Strawberry Shortcake", value: "strawberry-shortcake" },
+  { name: "Lemon Meringue", value: "lemon-meringue" },
+  { name: "Blueberry Muffin", value: "blueberry-muffin" },
+];
+
+export const themeValues = themes.map((t) => t.value);

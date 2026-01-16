@@ -1,0 +1,31 @@
+@layer base {
+  .soft {
+    --background: 183 21% 85%;
+    --foreground: 196 16% 50%;
+    --card: 0 0% 100%;
+    --card-foreground: 196 16% 50%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 196 16% 50%;
+    --primary: 357 92% 78%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 32 100% 82%;
+    --secondary-foreground: 196 16% 50%;
+    --muted: 183 21% 85%;
+    --muted-foreground: 196 10% 60%;
+    --accent: 173 31% 68%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 183 15% 75%;
+    --input: 183 15% 75%;
+    --ring: 357 92% 78%;
+    --sidebar-background: 196 16% 50%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 196 16% 50%;
+    --sidebar-accent: 357 92% 78%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 196 16% 40%;
+    --sidebar-ring: 357 92% 78%;
+  }
+}

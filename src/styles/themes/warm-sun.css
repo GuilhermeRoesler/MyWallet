@@ -1,0 +1,31 @@
+@layer base {
+  .warm-sun {
+    --background: 33 100% 94%;
+    --foreground: 20 86% 22%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 86% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 86% 22%;
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 15 98% 48%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 33 100% 94%;
+    --muted-foreground: 20 40% 42%;
+    --accent: 41 100% 49%;
+    --accent-foreground: 20 86% 22%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 33 50% 84%;
+    --input: 33 50% 84%;
+    --ring: 24 100% 50%;
+    --sidebar-background: 20 86% 22%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 20 86% 22%;
+    --sidebar-accent: 41 100% 49%;
+    --sidebar-accent-foreground: 20 86% 22%;
+    --sidebar-border: 20 86% 12%;
+    --sidebar-ring: 41 100% 49%;
+  }
+}

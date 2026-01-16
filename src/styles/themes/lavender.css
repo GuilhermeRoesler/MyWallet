@@ -1,0 +1,32 @@
+@layer base {
+  .lavender {
+    --background: 250 60% 98%;
+    --foreground: 250 60% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 250 60% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 250 60% 4%;
+    --primary: 250.2 84.2% 60.2%;
+    --primary-foreground: 250.2 84.2% 98.2%;
+    --secondary: 250 50% 96.1%;
+    --secondary-foreground: 250 50% 11.2%;
+    --muted: 250 50% 96.1%;
+    --muted-foreground: 250 16.3% 46.9%;
+    --accent: 250 50% 96.1%;
+    --accent-foreground: 250 50% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 250 31.8% 91.4%;
+    --input: 250 31.8% 91.4%;
+    --ring: 250.2 84.2% 60.2%;
+    --radius: 0.75rem;
+    --sidebar-background: 255 55% 45%;
+    --sidebar-foreground: 250.2 84.2% 98.2%;
+    --sidebar-primary: 250.2 84.2% 98.2%;
+    --sidebar-primary-foreground: 255 55% 45%;
+    --sidebar-accent: 250.2 84.2% 60.2%;
+    --sidebar-accent-foreground: 250.2 84.2% 98.2%;
+    --sidebar-border: 255 55% 35%;
+    --sidebar-ring: 250.2 84.2% 60.2%;
+  }
+}

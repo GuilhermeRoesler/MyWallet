@@ -1,0 +1,31 @@
+@layer base {
+  .blue-frog {
+    --background: 197 28% 77%;
+    --foreground: 202 87% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 202 87% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 202 87% 13%;
+    --primary: 185 89% 50%;
+    --primary-foreground: 202 87% 13%;
+    --secondary: 195 81% 32%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 197 28% 77%;
+    --muted-foreground: 202 30% 33%;
+    --accent: 8 18% 33%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 197 20% 67%;
+    --input: 197 20% 67%;
+    --ring: 185 89% 50%;
+    --sidebar-background: 202 87% 13%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 202 87% 13%;
+    --sidebar-accent: 185 89% 50%;
+    --sidebar-accent-foreground: 202 87% 13%;
+    --sidebar-border: 202 87% 3%;
+    --sidebar-ring: 185 89% 50%;
+  }
+}

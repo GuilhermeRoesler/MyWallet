@@ -1,0 +1,31 @@
+@layer base {
+  .lemon {
+    --background: 0 0% 96.1%;
+    --foreground: 88 73% 25%;
+    --card: 0 0% 100%;
+    --card-foreground: 88 73% 25%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 88 73% 25%;
+    --primary: 76 84% 42%;
+    --primary-foreground: 88 73% 25%;
+    --secondary: 67 90% 46%;
+    --secondary-foreground: 88 73% 25%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 88 20% 55%;
+    --accent: 61 90% 52%;
+    --accent-foreground: 88 73% 25%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 87.8%;
+    --input: 0 0% 87.8%;
+    --ring: 76 84% 42%;
+    --sidebar-background: 88 73% 25%;
+    --sidebar-foreground: 61 90% 52%;
+    --sidebar-primary: 61 90% 52%;
+    --sidebar-primary-foreground: 88 73% 25%;
+    --sidebar-accent: 76 84% 42%;
+    --sidebar-accent-foreground: 88 73% 25%;
+    --sidebar-border: 88 73% 15%;
+    --sidebar-ring: 76 84% 42%;
+  }
+}

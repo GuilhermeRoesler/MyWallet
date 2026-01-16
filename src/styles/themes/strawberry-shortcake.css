@@ -1,0 +1,31 @@
+@layer base {
+  .strawberry-shortcake {
+    --background: 339 89% 95%;
+    --foreground: 346 62% 46%;
+    --card: 0 0% 100%;
+    --card-foreground: 346 62% 46%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 346 62% 46%;
+    --primary: 337 85% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 96 53% 56%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 339 89% 95%;
+    --muted-foreground: 346 30% 66%;
+    --accent: 346 80% 78%;
+    --accent-foreground: 346 62% 46%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 339 50% 85%;
+    --input: 339 50% 85%;
+    --ring: 337 85% 54%;
+    --sidebar-background: 346 62% 46%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 346 62% 46%;
+    --sidebar-accent: 96 53% 56%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 346 62% 36%;
+    --sidebar-ring: 96 53% 56%;
+  }
+}
