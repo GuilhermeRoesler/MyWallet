@@ -1,0 +1,19 @@
+---
+description: Padrões de UI, formulários e componentes do My Wallet
+globs: src/components/**/*.{ts,tsx},src/pages/**/*.{ts,tsx},src/hooks/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# My Wallet — UI e componentes
+
+Ao criar ou editar páginas/componentes, leia:
+
+→ [`.cursor/skills/my-wallet-ui/SKILL.md`](../skills/my-wallet-ui/SKILL.md)
+
+## Regras rápidas
+
+- Preferir componentes em `src/components/ui` (Shadcn); usar `cn()` de `@/lib/utils`
+- Forms: React Hook Form + Zod + componentes `Form*`
+- Feedback: `showSuccess` / `showError` de `@/utils/toast`
+- CRUD financeiro: dialogs de form + delete; listas leem `useDashboardStore`
+- Landing: preservar brand-first e tipografia `font-display` (Fraunces)

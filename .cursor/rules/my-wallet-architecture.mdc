@@ -1,0 +1,19 @@
+---
+description: Visão geral e restrições do My Wallet — leia a skill antes de mudanças estruturais
+alwaysApply: true
+---
+
+# My Wallet — Arquitetura
+
+App frontend de finanças pessoais (portfólio/demo): **sem backend**, dados só em **localStorage**.
+
+Antes de alterar rotas, estrutura de pastas, deploy ou o modelo de produto, leia:
+
+→ [`.cursor/skills/my-wallet-architecture/SKILL.md`](../skills/my-wallet-architecture/SKILL.md)
+
+## Regras rápidas
+
+- Não introduza API, auth real nem banco remoto
+- Alias `@/` → `src/`; stack: React 19 + Vite + TS + Zustand + Shadcn
+- Rotas PT: `/`, `/projetos`, `/project/:projectId/...`
+- UI e textos em **português (pt-BR)**; moeda padrão **BRL**

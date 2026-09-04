@@ -1,0 +1,18 @@
+---
+description: Estado, persistência e modelo de dados do My Wallet
+globs: src/store/**/*.ts,src/types.ts,src/lib/storage.ts,src/lib/compute.ts,src/lib/demo-data.ts,src/lib/format.ts,src/lib/labels.ts
+alwaysApply: false
+---
+
+# My Wallet — Estado e dados
+
+Ao mexer em stores, tipos, storage ou agregações, leia a skill completa:
+
+→ [`.cursor/skills/my-wallet-state/SKILL.md`](../skills/my-wallet-state/SKILL.md)
+
+## Regras rápidas
+
+- Persistência: chave `my-wallet:projects` via `src/lib/storage.ts`
+- `projectStore` = CRUD de projetos; `dashboardStore` = CRUD financeiro do projeto ativo
+- `spent` de orçamentos e overview/relatórios são **calculados** em `compute.ts`, não persistidos
+- Transações atualizam saldo da conta; datas `YYYY-MM-DD` parse local (nunca UTC puro)

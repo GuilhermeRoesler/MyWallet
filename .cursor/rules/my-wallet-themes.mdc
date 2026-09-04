@@ -1,0 +1,18 @@
+---
+description: Sistema de temas curados do My Wallet
+globs: src/lib/themes.ts,src/styles/themes/**/*.css,src/globals.css,src/components/theme-provider.tsx,src/components/dashboard/settings/ThemeSwitcher.tsx,src/components/dashboard/settings/AppearanceForm.tsx
+alwaysApply: false
+---
+
+# My Wallet — Temas
+
+Ao adicionar ou alterar temas, leia:
+
+→ [`.cursor/skills/my-wallet-themes/SKILL.md`](../skills/my-wallet-themes/SKILL.md)
+
+## Regras rápidas
+
+- Temas oficiais só os listados em `src/lib/themes.ts` (não expor CSS órfãos)
+- Novo tema: CSS em `src/styles/themes/` + import em `globals.css` + entrada em `themes.ts`
+- Tokens: variáveis HSL no formato shadcn (`--background`, `--primary`, `--chart-*`, sidebar…)
+- Tema do projeto vive em `project.settings.theme` e sincroniza via `next-themes`
