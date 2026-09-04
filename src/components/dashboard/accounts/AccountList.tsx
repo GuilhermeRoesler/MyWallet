@@ -12,13 +12,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Landmark, CreditCard, TrendingUp, PiggyBank, MoreVertical, PlusCircle } from "lucide-react";
+import {
+  Landmark,
+  CreditCard,
+  TrendingUp,
+  PiggyBank,
+  MoreVertical,
+  PlusCircle,
+  Wallet,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "../../ui/button";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { AccountFormDialog } from "./AccountFormDialog";
 import { DeleteAccountDialog } from "./DeleteAccountDialog";
 import type { Account } from "@/types";
+import { formatCurrency } from "@/lib/format";
+import { accountStatusLabel, accountTypeLabel } from "@/lib/labels";
+import { EmptyState } from "@/components/ui/empty-state";
 
 const accountIcons: { [key: string]: React.ElementType } = {
   Bank: Landmark,
@@ -30,6 +41,7 @@ const accountIcons: { [key: string]: React.ElementType } = {
 export function AccountList() {
   const { data, createItem, updateItem, deleteItem } = useDashboardStore();
   const accounts = data?.accounts || [];
+  const defaultCurrency = data?.project.settings.currency || "BRL";
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
@@ -81,67 +93,92 @@ export function AccountList() {
 
   return (
     <>
-      <div className="flex justify-end mb-4">
+      <div className="mb-4 flex justify-end">
         <Button onClick={openCreateForm}>
           <PlusCircle className="mr-2 h-4 w-4" />
-          Nova Conta
+          Nova conta
         </Button>
       </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {accounts.map((account) => {
-          const Icon = accountIcons[account.type] || Landmark;
-          return (
-            <Card key={account.id} className="flex flex-col">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-primary/10 rounded-lg">
-                      <Icon className="h-6 w-6 text-primary" />
+
+      {accounts.length === 0 ? (
+        <EmptyState
+          icon={Wallet}
+          title="Nenhuma conta"
+          description="Adicione uma conta bancária, cartão ou investimento para começar."
+          actionLabel="Nova conta"
+          onAction={openCreateForm}
+        />
+      ) : (
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {accounts.map((account, index) => {
+            const Icon = accountIcons[account.type] || Landmark;
+            return (
+              <Card
+                key={account.id}
+                className="flex flex-col border-border/80 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md animate-rise"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="rounded-xl bg-primary/10 p-3">
+                        <Icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <div>
+                        <CardTitle className="font-display text-lg font-semibold">
+                          {account.name}
+                        </CardTitle>
+                        <CardDescription>
+                          {accountTypeLabel(account.type)}
+                        </CardDescription>
+                      </div>
                     </div>
-                    <div>
-                      <CardTitle>{account.name}</CardTitle>
-                      <CardDescription>{account.type}</CardDescription>
-                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => openEditForm(account)}>
+                          Editar
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => openDeleteConfirm(account)}
+                          className="text-destructive"
+                        >
+                          Excluir
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => openEditForm(account)}>
-                        Editar
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => openDeleteConfirm(account)} className="text-red-500">
-                        Excluir
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </CardHeader>
-              <CardContent className="flex-grow flex flex-col justify-end">
-                <div className="text-3xl font-bold">
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: account.currency || "USD",
-                  }).format(Number(account.balance))}
-                </div>
-                <div className="flex items-center gap-2 text-sm mt-2">
-                  <span
-                    className={cn("h-2 w-2 rounded-full", {
-                      "bg-green-500": account.status === "active",
-                      "bg-gray-400": account.status === "inactive",
-                      "bg-yellow-500": account.status === "pending",
-                    })}
-                  />
-                  <span className="capitalize text-muted-foreground">{account.status}</span>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+                </CardHeader>
+                <CardContent className="flex flex-grow flex-col justify-end">
+                  <div className="font-display text-3xl font-semibold tabular-nums tracking-tight">
+                    {formatCurrency(
+                      Number(account.balance),
+                      account.currency || defaultCurrency,
+                    )}
+                  </div>
+                  <div className="mt-2 flex items-center gap-2 text-sm">
+                    <span
+                      className={cn("h-2 w-2 rounded-full", {
+                        "bg-success": account.status === "active",
+                        "bg-muted-foreground/50": account.status === "inactive",
+                        "bg-warning": account.status === "pending",
+                      })}
+                    />
+                    <span className="text-muted-foreground">
+                      {accountStatusLabel(account.status)}
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+
       <AccountFormDialog
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}

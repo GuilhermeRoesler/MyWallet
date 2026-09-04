@@ -6,9 +6,11 @@ Aplicação frontend de gestão financeira pessoal, pensada como **portfólio / 
 
 ## Visão geral
 
-- Hub inicial para criar, editar, abrir e excluir projetos (CRUD completo)
+- Landing de produto com CTA para demo e projetos
+- Hub para criar, editar, abrir e excluir projetos (CRUD completo)
 - Projeto **demo** padrão com contas, transações e orçamentos de exemplo
-- Dashboard por projeto: overview, contas, transações, orçamentos, relatórios e settings
+- Dashboard por projeto: visão geral, contas, transações, orçamentos, relatórios e configurações
+- Temas curados (Atelier, Noite, Menta, Crepúsculo, Âmbar, Mono)
 - Persistência 100% local (localStorage)
 - Deploy automático no **GitHub Pages**
 
@@ -64,11 +66,13 @@ O dashboard (overview, spent dos orçamentos, gráficos) é **calculado no clien
 
 ## Estrutura
 
+- `src/pages/LandingPage.tsx` — landing de produto
 - `src/pages/ProjectsPage.tsx` — hub de projetos
 - `src/store/projectStore.ts` — CRUD de projetos
 - `src/store/dashboardStore.ts` — CRUD financeiro do projeto ativo
 - `src/lib/demo-data.ts` — seed do projeto demo
 - `src/lib/compute.ts` — agregações do dashboard
+- `src/lib/format.ts` — formatação PT-BR / BRL
 
 ## Licença
 

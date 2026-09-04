@@ -14,13 +14,37 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Utensils, Home, Coffee, ArrowDownCircle, Car, ShoppingCart, Film, FileText, MoreVertical, PlusCircle } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Utensils,
+  Home,
+  Coffee,
+  ArrowDownCircle,
+  Car,
+  ShoppingCart,
+  Film,
+  FileText,
+  MoreVertical,
+  PlusCircle,
+  HeartPulse,
+  PiggyBank,
+  Receipt,
+} from "lucide-react";
 import { Button } from "../../ui/button";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { TransactionFormDialog } from "./TransactionFormDialog";
 import { DeleteTransactionDialog } from "./DeleteTransactionDialog";
 import { Transaction } from "@/types";
+import { formatCurrency, formatDate } from "@/lib/format";
+import { categoryLabel } from "@/lib/labels";
+import { EmptyState } from "@/components/ui/empty-state";
+import { cn } from "@/lib/utils";
 
 const categoryIcons: { [key: string]: React.ElementType } = {
   Food: Utensils,
@@ -32,16 +56,20 @@ const categoryIcons: { [key: string]: React.ElementType } = {
   Entertainment: Film,
   Utilities: FileText,
   Shopping: ShoppingCart,
+  Health: HeartPulse,
+  Savings: PiggyBank,
 };
 
 export function TransactionList() {
   const { data, createItem, updateItem, deleteItem } = useDashboardStore();
   const transactions = data?.transactions || [];
   const accounts = data?.accounts || [];
+  const currency = data?.project.settings.currency || "BRL";
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFormSubmit = async (values: Record<string, unknown>) => {
@@ -92,61 +120,123 @@ export function TransactionList() {
 
   return (
     <>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+      <Card className="border-border/80 shadow-sm">
+        <CardHeader className="flex flex-row items-center justify-between gap-4">
           <div>
-            <CardTitle>All Transactions</CardTitle>
-            <CardDescription>A detailed list of your financial transactions.</CardDescription>
+            <CardTitle className="font-display text-xl font-semibold">
+              Todas as transações
+            </CardTitle>
+            <CardDescription>
+              Lista detalhada das movimentações financeiras.
+            </CardDescription>
           </div>
-          <Button onClick={openCreateForm}><PlusCircle className="mr-2 h-4 w-4" /> Nova Transação</Button>
+          <Button onClick={openCreateForm}>
+            <PlusCircle className="mr-2 h-4 w-4" /> Nova transação
+          </Button>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Date</TableHead>
-                <TableHead>Description</TableHead>
-                <TableHead>Account</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-                <TableHead className="w-[50px]"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {transactions.map((transaction) => {
-                const Icon = categoryIcons[transaction.category] || Utensils;
-                const account = accounts.find(acc => acc.id === transaction.account_id);
-                return (
-                  <TableRow key={transaction.id}>
-                    <TableCell className="text-muted-foreground">{new Date(transaction.date).toLocaleDateString()}</TableCell>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-full ${transaction.type === 'income' ? 'bg-green-500/10' : 'bg-secondary'}`}>
-                          <Icon className={`h-5 w-5 ${transaction.type === 'income' ? 'text-green-500' : 'text-muted-foreground'}`} />
+          {transactions.length === 0 ? (
+            <EmptyState
+              icon={Receipt}
+              title="Nenhuma transação"
+              description="Registre receitas e despesas para acompanhar o fluxo."
+              actionLabel="Nova transação"
+              onAction={openCreateForm}
+              className="border-0 bg-transparent"
+            />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[110px]">Data</TableHead>
+                  <TableHead>Descrição</TableHead>
+                  <TableHead>Conta</TableHead>
+                  <TableHead>Categoria</TableHead>
+                  <TableHead className="text-right">Valor</TableHead>
+                  <TableHead className="w-[50px]" />
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transactions.map((transaction) => {
+                  const Icon = categoryIcons[transaction.category] || Utensils;
+                  const account = accounts.find(
+                    (acc) => acc.id === transaction.account_id,
+                  );
+                  return (
+                    <TableRow key={transaction.id} className="group">
+                      <TableCell className="text-muted-foreground tabular-nums">
+                        {formatDate(transaction.date)}
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={cn(
+                              "rounded-full p-2",
+                              transaction.type === "income"
+                                ? "bg-success/10"
+                                : "bg-secondary",
+                            )}
+                          >
+                            <Icon
+                              className={cn(
+                                "h-4 w-4",
+                                transaction.type === "income"
+                                  ? "text-success"
+                                  : "text-muted-foreground",
+                              )}
+                            />
+                          </div>
+                          <span>{transaction.description}</span>
                         </div>
-                        <span>{transaction.description}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>{account?.name || 'N/A'}</TableCell>
-                    <TableCell><Badge variant="outline">{transaction.category}</Badge></TableCell>
-                    <TableCell className={`text-right font-bold ${transaction.type === 'income' ? 'text-green-500' : 'text-destructive'}`}>
-                      {transaction.type === 'income' ? '+' : ''}
-                      {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(transaction.amount))}
-                    </TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => openEditForm(transaction)}>Editar</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => openDeleteConfirm(transaction)} className="text-red-500">Excluir</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                      </TableCell>
+                      <TableCell>{account?.name || "—"}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">
+                          {categoryLabel(transaction.category)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell
+                        className={cn(
+                          "text-right font-semibold tabular-nums",
+                          transaction.type === "income"
+                            ? "text-success"
+                            : "text-destructive",
+                        )}
+                      >
+                        {transaction.type === "income" ? "+" : "−"}
+                        {formatCurrency(
+                          Math.abs(Number(transaction.amount)),
+                          currency,
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              onClick={() => openEditForm(transaction)}
+                            >
+                              Editar
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => openDeleteConfirm(transaction)}
+                              className="text-destructive"
+                            >
+                              Excluir
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
       <TransactionFormDialog

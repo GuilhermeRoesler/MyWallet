@@ -5,56 +5,90 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, Receipt } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDashboardStore } from "@/store/dashboardStore";
+import { formatCurrency, formatDate } from "@/lib/format";
+import { EmptyState } from "@/components/ui/empty-state";
+import { cn } from "@/lib/utils";
 
 export function RecentTransactionsCard() {
+  const { projectId } = useParams<{ projectId: string }>();
   const { data: dashboardData } = useDashboardStore();
-  const recentTransactions = dashboardData?.transactions.slice(0, 4) || [];
+  const recentTransactions = dashboardData?.transactions.slice(0, 5) || [];
+  const currency = dashboardData?.project.settings.currency || "BRL";
+  const transactionsHref = projectId
+    ? `/project/${projectId}/transactions`
+    : "/";
 
   return (
-    <Card className="h-full">
+    <Card className="h-full border-border/80 shadow-sm">
       <CardHeader>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-start gap-2">
           <div>
-            <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>Your latest transactions.</CardDescription>
+            <CardTitle className="font-display text-xl font-semibold">
+              Atividade recente
+            </CardTitle>
+            <CardDescription>Últimas movimentações.</CardDescription>
           </div>
-          <Button asChild variant="ghost" size="sm">
-            <Link to="/dashboard/transactions">View All</Link>
+          <Button asChild variant="ghost" size="sm" className="shrink-0">
+            <Link to={transactionsHref}>Ver todas</Link>
           </Button>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {recentTransactions.length > 0 ? (
-            recentTransactions.map((transaction) => (
-              <div key={transaction.id} className="flex items-center">
-                <div className={`p-2 rounded-full mr-4 ${transaction.type === 'income' ? 'bg-green-500/20' : 'bg-red-500/20'}`}>
-                  {transaction.type === 'income' ? (
-                    <ArrowUpRight className="h-5 w-5 text-green-500" />
+        {recentTransactions.length > 0 ? (
+          <div className="space-y-1">
+            {recentTransactions.map((transaction) => (
+              <div
+                key={transaction.id}
+                className="flex items-center rounded-lg px-2 py-2.5 transition-colors hover:bg-muted/60"
+              >
+                <div
+                  className={cn(
+                    "mr-3 rounded-full p-2",
+                    transaction.type === "income"
+                      ? "bg-success/15"
+                      : "bg-destructive/15",
+                  )}
+                >
+                  {transaction.type === "income" ? (
+                    <ArrowUpRight className="h-4 w-4 text-success" />
                   ) : (
-                    <ArrowDownLeft className="h-5 w-5 text-red-500" />
+                    <ArrowDownLeft className="h-4 w-4 text-destructive" />
                   )}
                 </div>
-                <div className="flex-grow">
-                  <p className="font-medium">{transaction.description}</p>
-                  <p className="text-sm text-muted-foreground">{new Date(transaction.date).toLocaleDateString()}</p>
+                <div className="min-w-0 flex-grow">
+                  <p className="truncate font-medium leading-tight">
+                    {transaction.description}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {formatDate(transaction.date)}
+                  </p>
                 </div>
-                <div className={`font-semibold ${transaction.type === 'income' ? 'text-green-500' : 'text-foreground'}`}>
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(Number(transaction.amount))}
+                <div
+                  className={cn(
+                    "ml-2 shrink-0 font-semibold tabular-nums text-sm",
+                    transaction.type === "income"
+                      ? "text-success"
+                      : "text-foreground",
+                  )}
+                >
+                  {transaction.type === "income" ? "+" : "−"}
+                  {formatCurrency(Math.abs(Number(transaction.amount)), currency)}
                 </div>
               </div>
-            ))
-          ) : (
-            <p className="text-sm text-muted-foreground">No recent transactions found.</p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            icon={Receipt}
+            title="Nenhuma transação"
+            description="As movimentações recentes aparecerão aqui."
+            className="py-10 border-0 bg-transparent"
+          />
+        )}
       </CardContent>
     </Card>
   );

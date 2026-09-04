@@ -24,59 +24,60 @@ export function SidebarNav() {
 
   const sidebarNavItems: SidebarNavItem[] = [
     {
-      title: "Overview",
+      title: "Visão geral",
       href: base,
       icon: LayoutDashboard,
       end: true,
     },
     {
-      title: "Accounts",
+      title: "Contas",
       href: `${base}/accounts`,
       icon: Wallet,
     },
     {
-      title: "Transactions",
+      title: "Transações",
       href: `${base}/transactions`,
       icon: ListChecks,
     },
     {
-      title: "Budgets",
+      title: "Orçamentos",
       href: `${base}/budgets`,
       icon: PiggyBank,
     },
     {
-      title: "Reports",
+      title: "Relatórios",
       href: `${base}/reports`,
       icon: BarChart,
     },
     {
-      title: "Settings",
+      title: "Configurações",
       href: `${base}/settings`,
       icon: Settings,
     },
     {
       title: "Projetos",
-      href: "/",
+      href: "/projetos",
       icon: Folders,
     },
   ];
 
   return (
-    <ScrollArea className="h-full py-4">
-      <div className="flex flex-col space-y-1 p-4">
+    <ScrollArea className="h-full py-3">
+      <div className="flex flex-col space-y-1 p-3">
         {sidebarNavItems.map((item) => (
           <NavLink
-            key={item.href}
+            key={item.href + item.title}
             to={item.href}
             end={item.end}
             className={({ isActive }) =>
               cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sidebar-foreground transition-all hover:text-sidebar-primary",
-                isActive && "bg-sidebar-accent text-sidebar-primary",
+                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-sidebar-foreground/80 transition-all duration-200 hover:bg-sidebar-accent/20 hover:text-sidebar-primary",
+                isActive &&
+                  "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
               )
             }
           >
-            <item.icon className="h-4 w-4" />
+            <item.icon className="h-4 w-4 shrink-0" />
             {item.title}
           </NavLink>
         ))}

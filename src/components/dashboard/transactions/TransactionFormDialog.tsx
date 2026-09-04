@@ -50,7 +50,9 @@ interface TransactionFormDialogProps {
   transactionToEdit?: Transaction | null;
 }
 
-const categories = ["Food & Groceries", "Income", "Dining", "Housing", "Transportation", "Entertainment", "Utilities", "Shopping"];
+import { CATEGORY_OPTIONS } from "@/lib/labels";
+
+const categories = CATEGORY_OPTIONS;
 
 export function TransactionFormDialog({
   isOpen,
@@ -145,7 +147,11 @@ export function TransactionFormDialog({
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl><SelectTrigger><SelectValue placeholder="Selecione uma categoria" /></SelectTrigger></FormControl>
                   <SelectContent>
-                    {categories.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
+                    {categories.map((cat) => (
+                      <SelectItem key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

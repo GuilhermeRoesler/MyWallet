@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import NotFound from "./pages/NotFound";
+import LandingPage from "./pages/LandingPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import OverviewPage from "./pages/dashboard/OverviewPage";
@@ -28,7 +29,8 @@ const App = () => (
       <Toaster />
       <BrowserRouter basename={basename}>
         <Routes>
-          <Route path="/" element={<ProjectsPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/projetos" element={<ProjectsPage />} />
 
           <Route path="/project/:projectId" element={<ProjectRoute />}>
             <Route element={<DashboardLayout />}>
@@ -41,7 +43,8 @@ const App = () => (
             </Route>
           </Route>
 
-          <Route path="/dashboard/*" element={<Navigate to="/" replace />} />
+          <Route path="/projects" element={<Navigate to="/projetos" replace />} />
+          <Route path="/dashboard/*" element={<Navigate to="/projetos" replace />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/register" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />

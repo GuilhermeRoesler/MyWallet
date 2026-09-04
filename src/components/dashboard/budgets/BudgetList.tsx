@@ -14,25 +14,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "../../ui/button";
-import { MoreVertical, PlusCircle } from "lucide-react";
+import { MoreVertical, PiggyBank, PlusCircle } from "lucide-react";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { BudgetFormDialog } from "./BudgetFormDialog";
 import { DeleteBudgetDialog } from "./DeleteBudgetDialog";
 import { Budget } from "@/types";
+import { formatCurrency } from "@/lib/format";
+import { budgetStatusLabel, categoryLabel } from "@/lib/labels";
+import { EmptyState } from "@/components/ui/empty-state";
+import { cn } from "@/lib/utils";
 
-const getBudgetStatus = (spent: number, allocated: number): { status: "on-track" | "overspent" | "underused", progress: number } => {
-    const progress = allocated > 0 ? (spent / allocated) * 100 : 0;
-    if (progress > 100) return { status: "overspent", progress };
-    if (progress < 50) return { status: "underused", progress };
-    return { status: "on-track", progress };
-}
+const getBudgetStatus = (
+  spent: number,
+  allocated: number,
+): { status: "on-track" | "overspent" | "underused"; progress: number } => {
+  const progress = allocated > 0 ? (spent / allocated) * 100 : 0;
+  if (progress > 100) return { status: "overspent", progress };
+  if (progress < 50) return { status: "underused", progress };
+  return { status: "on-track", progress };
+};
 
 export function BudgetList() {
   const { data, createItem, updateItem, deleteItem } = useDashboardStore();
   const budgets = data?.budgets || [];
+  const currency = data?.project.settings.currency || "BRL";
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
@@ -84,64 +98,116 @@ export function BudgetList() {
 
   return (
     <>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+      <Card className="border-border/80 shadow-sm">
+        <CardHeader className="flex flex-row items-center justify-between gap-4">
           <div>
-            <CardTitle>Your Budgets</CardTitle>
-            <CardDescription>Track your spending against your allocated budgets for the current month.</CardDescription>
+            <CardTitle className="font-display text-xl font-semibold">
+              Seus orçamentos
+            </CardTitle>
+            <CardDescription>
+              Acompanhe o gasto em relação ao valor alocado neste mês.
+            </CardDescription>
           </div>
-          <Button onClick={openCreateForm}><PlusCircle className="mr-2 h-4 w-4" /> Novo Orçamento</Button>
+          <Button onClick={openCreateForm}>
+            <PlusCircle className="mr-2 h-4 w-4" /> Novo orçamento
+          </Button>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Category</TableHead>
-                <TableHead className="text-right">Allocated</TableHead>
-                <TableHead className="text-right">Spent</TableHead>
-                <TableHead className="text-center">Progress</TableHead>
-                <TableHead className="text-center">Status</TableHead>
-                <TableHead className="w-[50px]"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {budgets.map((budget) => {
-                const spent = Number(budget.spent);
-                const allocated = Number(budget.allocated);
-                const { status, progress } = getBudgetStatus(spent, allocated);
-                
-                let progressColorClass = "bg-primary";
-                let badgeVariant: "default" | "secondary" | "destructive" = "default";
+          {budgets.length === 0 ? (
+            <EmptyState
+              icon={PiggyBank}
+              title="Nenhum orçamento"
+              description="Defina limites por categoria para manter o controle."
+              actionLabel="Novo orçamento"
+              onAction={openCreateForm}
+              className="border-0 bg-transparent"
+            />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Categoria</TableHead>
+                  <TableHead className="text-right">Alocado</TableHead>
+                  <TableHead className="text-right">Gasto</TableHead>
+                  <TableHead className="text-center">Progresso</TableHead>
+                  <TableHead className="text-center">Status</TableHead>
+                  <TableHead className="w-[50px]" />
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {budgets.map((budget) => {
+                  const spent = Number(budget.spent);
+                  const allocated = Number(budget.allocated);
+                  const { status, progress } = getBudgetStatus(spent, allocated);
 
-                if (status === "overspent") {
-                  progressColorClass = "bg-red-500";
-                  badgeVariant = "destructive";
-                } else if (status === "underused") {
-                  progressColorClass = "bg-yellow-500";
-                  badgeVariant = "secondary";
-                }
+                  let progressColorClass = "bg-primary";
+                  let badgeVariant: "default" | "secondary" | "destructive" =
+                    "default";
 
-                return (
-                  <TableRow key={budget.id}>
-                    <TableCell className="font-medium">{budget.category}</TableCell>
-                    <TableCell className="text-right">{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(allocated)}</TableCell>
-                    <TableCell className="text-right">{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(spent)}</TableCell>
-                    <TableCell className="text-center"><Progress value={progress > 100 ? 100 : progress} className="w-[100px]" indicatorClassName={progressColorClass} /></TableCell>
-                    <TableCell className="text-center"><Badge variant={badgeVariant}>{status.replace("-", " ")}</Badge></TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><MoreVertical className="h-4 w-4" /></Button></DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => openEditForm(budget)}>Editar</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => openDeleteConfirm(budget)} className="text-red-500">Excluir</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                  if (status === "overspent") {
+                    progressColorClass = "bg-destructive";
+                    badgeVariant = "destructive";
+                  } else if (status === "underused") {
+                    progressColorClass = "bg-warning";
+                    badgeVariant = "secondary";
+                  }
+
+                  return (
+                    <TableRow key={budget.id}>
+                      <TableCell className="font-medium">
+                        {categoryLabel(budget.category)}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums">
+                        {formatCurrency(allocated, currency)}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums">
+                        {formatCurrency(spent, currency)}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Progress
+                          value={progress > 100 ? 100 : progress}
+                          className="mx-auto w-[100px]"
+                          indicatorClassName={progressColorClass}
+                        />
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <Badge
+                          variant={badgeVariant}
+                          className={cn(
+                            status === "on-track" && "bg-success text-success-foreground",
+                          )}
+                        >
+                          {budgetStatusLabel(status)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              onClick={() => openEditForm(budget)}
+                            >
+                              Editar
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => openDeleteConfirm(budget)}
+                              className="text-destructive"
+                            >
+                              Excluir
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
       <BudgetFormDialog

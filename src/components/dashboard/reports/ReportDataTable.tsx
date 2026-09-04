@@ -9,47 +9,59 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardStore } from "@/store/dashboardStore";
+import { formatCurrency, formatDate } from "@/lib/format";
+import { categoryLabel } from "@/lib/labels";
+import { cn } from "@/lib/utils";
 
 export function ReportDataTable() {
   const { data: dashboardData } = useDashboardStore();
   const transactions = dashboardData?.transactions || [];
+  const currency = dashboardData?.project.settings.currency || "BRL";
 
   return (
-    <Card>
+    <Card className="border-border/80 shadow-sm h-full">
       <CardHeader>
-        <CardTitle>Detailed Transactions</CardTitle>
+        <CardTitle className="font-display text-xl font-semibold">
+          Transações detalhadas
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Date</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead>Data</TableHead>
+              <TableHead>Descrição</TableHead>
+              <TableHead>Categoria</TableHead>
+              <TableHead className="text-right">Valor</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {transactions.map((transaction) => (
               <TableRow key={transaction.id}>
-                <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
+                <TableCell className="tabular-nums text-muted-foreground">
+                  {formatDate(transaction.date)}
+                </TableCell>
                 <TableCell className="font-medium">
                   {transaction.description}
                 </TableCell>
                 <TableCell>
-                  <Badge variant="outline">{transaction.category}</Badge>
+                  <Badge variant="outline">
+                    {categoryLabel(transaction.category)}
+                  </Badge>
                 </TableCell>
                 <TableCell
-                  className={`text-right font-medium ${
+                  className={cn(
+                    "text-right font-medium tabular-nums",
                     transaction.type === "income"
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
+                      ? "text-success"
+                      : "text-destructive",
+                  )}
                 >
-                  {new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(Number(transaction.amount))}
+                  {transaction.type === "income" ? "+" : "−"}
+                  {formatCurrency(
+                    Math.abs(Number(transaction.amount)),
+                    currency,
+                  )}
                 </TableCell>
               </TableRow>
             ))}

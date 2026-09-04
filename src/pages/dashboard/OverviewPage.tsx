@@ -1,47 +1,52 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CreditCard, TrendingUp, Wallet, ArrowDownCircle } from "lucide-react";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+  CreditCard,
+  TrendingUp,
+  Wallet,
+  ArrowDownCircle,
+} from "lucide-react";
 import { RecentTransactionsCard } from "@/components/dashboard/overview/RecentTransactionsCard";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { Skeleton } from "@/components/ui/skeleton";
+import { KpiCard } from "@/components/dashboard/overview/KpiCard";
+import { BalanceChart } from "@/components/dashboard/overview/BalanceChart";
+import { formatChartDate, formatCurrency } from "@/lib/format";
 
 const OverviewPage = () => {
   const { data: dashboardData, isLoading } = useDashboardStore();
   const overview = dashboardData?.overview;
+  const currency = dashboardData?.project.settings.currency || "BRL";
+  const ownerName = dashboardData?.user.name?.split(" ")[0] || "você";
 
-  const balanceChartData = dashboardData?.balanceOverTime?.map(item => ({
-    name: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    'Total Balance': item.balance,
-  })) || [];
+  const balanceSeries =
+    dashboardData?.balanceOverTime?.map((item) => item.balance) || [];
+
+  const balanceChartData =
+    dashboardData?.balanceOverTime?.map((item) => ({
+      name: formatChartDate(item.date),
+      saldo: item.balance,
+    })) || [];
+
+  const netFlow = overview
+    ? overview.monthlyIncome - overview.monthlyExpense
+    : 0;
 
   if (isLoading || !overview) {
     return (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 animate-fade-in">
         <div>
           <Skeleton className="h-9 w-64" />
           <Skeleton className="h-5 w-80 mt-2" />
         </div>
-        <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-          <Skeleton className="h-28" />
-          <Skeleton className="h-28" />
-          <Skeleton className="h-28" />
-          <Skeleton className="h-28" />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Skeleton className="h-32" />
+          <Skeleton className="h-32" />
+          <Skeleton className="h-32" />
+          <Skeleton className="h-32" />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <Skeleton className="h-[350px]" />
-          </div>
-          <div className="lg:col-span-1">
-            <Skeleton className="h-[350px]" />
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Skeleton className="h-[380px] lg:col-span-2" />
+          <Skeleton className="h-[380px]" />
         </div>
       </div>
     );
@@ -49,109 +54,65 @@ const OverviewPage = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Welcome Back!</h1>
-        <p className="text-muted-foreground">Here's a summary of your financial health.</p>
+      <div className="animate-rise">
+        <h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
+          Olá, {ownerName}
+        </h1>
+        <p className="mt-1 text-muted-foreground">
+          Resumo da saúde financeira deste projeto.
+        </p>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-        <Card className="bg-blue-500/10 border-blue-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-800 dark:text-blue-300">Total Balance</CardTitle>
-            <Wallet className="h-6 w-6 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(overview.totalBalance)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Across all accounts
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="bg-red-500/10 border-red-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-red-800 dark:text-red-300">Monthly Spending</CardTitle>
-            <CreditCard className="h-6 w-6 text-red-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              -{new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(overview.monthlyExpense)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              This month so far
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="bg-green-500/10 border-green-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-green-800 dark:text-green-300">Monthly Income</CardTitle>
-            <ArrowDownCircle className="h-6 w-6 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(overview.monthlyIncome)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              This month so far
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="bg-purple-500/10 border-purple-500">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-purple-800 dark:text-purple-300">Net Flow</CardTitle>
-            <TrendingUp className="h-6 w-6 text-purple-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(overview.monthlyIncome - overview.monthlyExpense)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Income - Expenses
-            </p>
-          </CardContent>
-        </Card>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <KpiCard
+          className="animate-rise"
+          title="Saldo total"
+          value={formatCurrency(overview.totalBalance, currency)}
+          hint="Em todas as contas"
+          icon={Wallet}
+          tone="primary"
+          sparkline={balanceSeries}
+        />
+        <KpiCard
+          className="animate-rise-delay-1"
+          title="Gastos do mês"
+          value={formatCurrency(overview.monthlyExpense, currency)}
+          hint="Despesas até agora"
+          icon={CreditCard}
+          tone="danger"
+        />
+        <KpiCard
+          className="animate-rise-delay-2"
+          title="Receitas do mês"
+          value={formatCurrency(overview.monthlyIncome, currency)}
+          hint="Entradas até agora"
+          icon={ArrowDownCircle}
+          tone="success"
+        />
+        <KpiCard
+          className="animate-rise-delay-3"
+          title="Fluxo líquido"
+          value={formatCurrency(netFlow, currency)}
+          hint="Receitas − despesas"
+          icon={TrendingUp}
+          tone={netFlow >= 0 ? "success" : "danger"}
+          delta={netFlow >= 0 ? "Positivo no mês" : "Negativo no mês"}
+          deltaPositive={netFlow >= 0}
+        />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Balance Over Time</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={balanceChartData}
-                    margin={{
-                      top: 5,
-                      right: 10,
-                      left: 10,
-                      bottom: 0,
-                    }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "hsl(var(--background))",
-                        borderColor: "hsl(var(--border))",
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="Total Balance"
-                      stroke="hsl(var(--primary))"
-                      strokeWidth={2}
-                      activeDot={{ r: 8 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-        <div className="lg:col-span-1">
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2 border-border/80 shadow-sm animate-rise-delay-1 overflow-hidden">
+          <CardHeader className="pb-2">
+            <CardTitle className="font-display text-xl font-semibold">
+              Saldo ao longo do tempo
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <BalanceChart data={balanceChartData} currency={currency} />
+          </CardContent>
+        </Card>
+        <div className="animate-rise-delay-2">
           <RecentTransactionsCard />
         </div>
       </div>

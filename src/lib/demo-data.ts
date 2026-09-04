@@ -3,8 +3,12 @@ import { createId } from "@/lib/storage";
 
 function daysAgo(n: number): string {
   const d = new Date();
+  d.setHours(12, 0, 0, 0);
   d.setDate(d.getDate() - n);
-  return d.toISOString().slice(0, 10);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
 /** Projeto demo padrão — dados ricos para demonstrar o dashboard. */
@@ -69,7 +73,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountBank,
-        date: daysAgo(28),
+        date: daysAgo(25),
         description: "Salário Mensal",
         category: "Income",
         amount: 8500,
@@ -78,7 +82,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountBank,
-        date: daysAgo(26),
+        date: daysAgo(24),
         description: "Aluguel",
         category: "Housing",
         amount: 2200,
@@ -87,7 +91,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountBank,
-        date: daysAgo(24),
+        date: daysAgo(22),
         description: "Supermercado Extra",
         category: "Food",
         amount: 420.5,
@@ -96,7 +100,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountCard,
-        date: daysAgo(22),
+        date: daysAgo(20),
         description: "Restaurante Italiano",
         category: "Dining",
         amount: 186.9,
@@ -105,7 +109,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountCard,
-        date: daysAgo(20),
+        date: daysAgo(18),
         description: "Fones Bluetooth",
         category: "Shopping",
         amount: 349.0,
@@ -114,7 +118,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountBank,
-        date: daysAgo(18),
+        date: daysAgo(16),
         description: "Conta de Luz",
         category: "Utilities",
         amount: 210.3,
@@ -123,7 +127,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountBank,
-        date: daysAgo(16),
+        date: daysAgo(14),
         description: "Combustível",
         category: "Transportation",
         amount: 280.0,
@@ -132,7 +136,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountInvest,
-        date: daysAgo(14),
+        date: daysAgo(12),
         description: "Aporte mensal ETF",
         category: "Savings",
         amount: 1000.0,
@@ -141,7 +145,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountCard,
-        date: daysAgo(12),
+        date: daysAgo(10),
         description: "Cinema + pipoca",
         category: "Entertainment",
         amount: 78.5,
@@ -150,7 +154,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountBank,
-        date: daysAgo(10),
+        date: daysAgo(8),
         description: "Freelance — landing page",
         category: "Income",
         amount: 1500.0,
@@ -159,7 +163,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountBank,
-        date: daysAgo(8),
+        date: daysAgo(6),
         description: "Farmácia",
         category: "Health",
         amount: 95.2,
@@ -168,7 +172,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountCard,
-        date: daysAgo(6),
+        date: daysAgo(5),
         description: "Assinatura streaming",
         category: "Entertainment",
         amount: 55.9,
@@ -177,7 +181,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountBank,
-        date: daysAgo(4),
+        date: daysAgo(3),
         description: "Mercado semanal",
         category: "Food",
         amount: 312.8,
@@ -186,7 +190,7 @@ export function createDemoProject(): Project {
       {
         id: createId(),
         account_id: accountSavings,
-        date: daysAgo(3),
+        date: daysAgo(2),
         description: "Transferência para reserva",
         category: "Savings",
         amount: 500.0,
@@ -194,8 +198,17 @@ export function createDemoProject(): Project {
       },
       {
         id: createId(),
-        account_id: accountCard,
+        account_id: accountBank,
         date: daysAgo(1),
+        description: "Adiantamento bônus",
+        category: "Income",
+        amount: 1200.0,
+        type: "income",
+      },
+      {
+        id: createId(),
+        account_id: accountCard,
+        date: daysAgo(0),
         description: "Café com cliente",
         category: "Dining",
         amount: 42.0,

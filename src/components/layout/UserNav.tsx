@@ -46,8 +46,11 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate("/")}>
+        <DropdownMenuItem onClick={() => navigate("/projetos")}>
           Trocar de projeto
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate("/")}>
+          Página inicial
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

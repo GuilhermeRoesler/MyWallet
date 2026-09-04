@@ -19,15 +19,19 @@ export function AppearanceForm() {
   useEffect(() => {
     if (userTheme && themeValues.includes(userTheme)) {
       setTheme(userTheme);
+    } else if (userTheme && !themeValues.includes(userTheme)) {
+      setTheme("light");
     }
   }, [userTheme, setTheme]);
 
   return (
-    <Card>
+    <Card className="border-border/80 shadow-sm">
       <CardHeader>
-        <CardTitle>Appearance</CardTitle>
+        <CardTitle className="font-display text-xl font-semibold">
+          Aparência
+        </CardTitle>
         <CardDescription>
-          Customize the look and feel of the application. Select a theme below.
+          Escolha um dos temas curados. A preferência fica salva neste projeto.
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -44,7 +44,9 @@ interface BudgetFormDialogProps {
   budgetToEdit?: Budget | null;
 }
 
-const categories = ["Food & Groceries", "Dining", "Housing", "Transportation", "Entertainment", "Utilities", "Shopping"];
+import { BUDGET_CATEGORY_OPTIONS } from "@/lib/labels";
+
+const categories = BUDGET_CATEGORY_OPTIONS;
 
 export function BudgetFormDialog({
   isOpen,
@@ -88,7 +90,11 @@ export function BudgetFormDialog({
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl><SelectTrigger><SelectValue placeholder="Selecione uma categoria" /></SelectTrigger></FormControl>
                   <SelectContent>
-                    {categories.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
+                    {categories.map((cat) => (
+                      <SelectItem key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -8,13 +8,40 @@ import { SidebarNav } from "./SidebarNav";
 import { Navbar } from "./Navbar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { WalletLogo } from "@/components/brand/WalletLogo";
+import { useDashboardStore } from "@/store/dashboardStore";
+
+function SidebarBrand() {
+  const { projectId } = useParams<{ projectId: string }>();
+  const { data } = useDashboardStore();
+  const projectName = data?.project.name;
+
+  return (
+    <div className="flex h-auto min-h-14 flex-col justify-center gap-1 border-b border-sidebar-border px-4 py-3 lg:min-h-[68px] lg:px-5">
+      <Link
+        to={projectId ? `/project/${projectId}` : "/"}
+        className="flex items-center gap-2.5 text-base font-semibold hover:opacity-90"
+      >
+        <WalletLogo className="h-8 w-8" />
+        <span className="font-display tracking-tight">My Wallet</span>
+      </Link>
+      {projectName && (
+        <p
+          className="truncate pl-[2.65rem] text-xs text-sidebar-foreground/60"
+          title={projectName}
+        >
+          {projectName}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export function DashboardLayout() {
   const isMobile = useIsMobile();
 
   if (isMobile) {
     return (
-      <div className="flex min-h-screen w-full flex-col">
+      <div className="flex min-h-screen w-full flex-col surface-atmosphere">
         <Navbar />
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
           <Outlet />
@@ -26,25 +53,22 @@ export function DashboardLayout() {
   return (
     <ResizablePanelGroup
       orientation="horizontal"
-      className="min-h-screen w-full rounded-lg"
+      className="min-h-screen w-full"
     >
-      <ResizablePanel defaultSize="15" minSize="10" maxSize="20" className="bg-sidebar text-sidebar-foreground">
+      <ResizablePanel
+        defaultSize="16"
+        minSize="12"
+        maxSize="22"
+        className="bg-sidebar text-sidebar-foreground"
+      >
         <div className="flex h-full flex-col">
-          <div className="flex h-14 items-center border-b border-sidebar-border px-4 lg:h-[60px] lg:px-6">
-            <Link
-              to="/"
-              className="flex items-center gap-2 text-lg font-semibold hover:opacity-90"
-            >
-              <WalletLogo className="h-7 w-7" />
-              My Wallet
-            </Link>
-          </div>
+          <SidebarBrand />
           <SidebarNav />
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize="85">
-        <div className="flex min-h-screen w-full flex-col">
+      <ResizablePanel defaultSize="84">
+        <div className="flex min-h-screen w-full flex-col surface-atmosphere">
           <Navbar />
           <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             <Outlet />

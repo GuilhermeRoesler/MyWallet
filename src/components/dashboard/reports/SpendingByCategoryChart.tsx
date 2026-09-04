@@ -8,21 +8,37 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardStore } from "@/store/dashboardStore";
+import { formatCurrency } from "@/lib/format";
+import { categoryLabel } from "@/lib/labels";
+import { EmptyState } from "@/components/ui/empty-state";
+import { PieChartIcon } from "lucide-react";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF", "#FF6347", "#4682B4"];
+const COLORS = [
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+  "hsl(var(--primary))",
+  "hsl(var(--muted-foreground))",
+];
 
 export function SpendingByCategoryChart() {
   const { data: dashboardData } = useDashboardStore();
-  
-  const chartData = dashboardData?.reports.spendingByCategory.map(item => ({
-    name: item.category,
-    value: Math.abs(Number(item.total)),
-  })) || [];
+  const currency = dashboardData?.project.settings.currency || "BRL";
+
+  const chartData =
+    dashboardData?.reports.spendingByCategory.map((item) => ({
+      name: categoryLabel(item.category),
+      value: Math.abs(Number(item.total)),
+    })) || [];
 
   return (
-    <Card>
+    <Card className="border-border/80 shadow-sm h-full">
       <CardHeader>
-        <CardTitle>Spending by Category</CardTitle>
+        <CardTitle className="font-display text-xl font-semibold">
+          Gastos por categoria
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[300px]">
@@ -33,13 +49,16 @@ export function SpendingByCategoryChart() {
                   data={chartData}
                   cx="50%"
                   cy="50%"
-                  labelLine={false}
-                  outerRadius={80}
+                  innerRadius={55}
+                  outerRadius={88}
+                  paddingAngle={2}
                   fill="#8884d8"
                   dataKey="value"
                   nameKey="name"
+                  stroke="hsl(var(--card))"
+                  strokeWidth={2}
                 >
-                  {chartData.map((entry, index) => (
+                  {chartData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
@@ -47,20 +66,28 @@ export function SpendingByCategoryChart() {
                   ))}
                 </Pie>
                 <Tooltip
-                  formatter={(value: number) =>
-                    new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format(value)
-                  }
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    borderColor: "hsl(var(--border))",
+                    borderRadius: "0.75rem",
+                  }}
+                  formatter={(value: number) => formatCurrency(value, currency)}
                 />
-                <Legend />
+                <Legend
+                  wrapperStyle={{ fontSize: 12 }}
+                  formatter={(value) => (
+                    <span className="text-muted-foreground">{value}</span>
+                  )}
+                />
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex items-center justify-center h-full">
-              <p className="text-muted-foreground">No spending data for this period.</p>
-            </div>
+            <EmptyState
+              icon={PieChartIcon}
+              title="Sem dados de gasto"
+              description="Não há despesas neste período para exibir."
+              className="h-full border-0 bg-transparent py-8"
+            />
           )}
         </div>
       </CardContent>

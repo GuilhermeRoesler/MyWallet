@@ -5,10 +5,12 @@ import { NotificationsForm } from "@/components/dashboard/settings/Notifications
 
 const SettingsPage = () => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-3xl font-bold">Settings</h1>
-        <p className="text-lg text-muted-foreground">
+        <h1 className="font-display text-3xl font-semibold tracking-tight">
+          Configurações
+        </h1>
+        <p className="mt-1 text-muted-foreground">
           Preferências deste projeto (persistidas no localStorage).
         </p>
       </div>
