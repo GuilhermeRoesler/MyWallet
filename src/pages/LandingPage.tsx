@@ -1,24 +1,90 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Wallet, PiggyBank, LineChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WalletLogo } from "@/components/brand/WalletLogo";
 import { DashboardPreview } from "@/components/landing/DashboardPreview";
 import { HeroFractalBackdrop } from "@/components/landing/HeroFractalBackdrop";
+import {
+  ExpandableScreen,
+  ExpandableScreenContent,
+  ExpandableScreenTrigger,
+  useExpandableScreen,
+} from "@/components/ui/expandable-screen";
 import { useProjectStore } from "@/store/projectStore";
 import { useEffect } from "react";
 
-export default function LandingPage() {
+function DemoLaunchPanel({ ready }: { ready: boolean }) {
   const navigate = useNavigate();
-  const { init, initialized, resetDemoProject } = useProjectStore();
+  const { collapse } = useExpandableScreen();
+  const { resetDemoProject } = useProjectStore();
+
+  const enter = () => {
+    const demo = resetDemoProject();
+    collapse();
+    navigate(`/project/${demo.id}`);
+  };
+
+  return (
+    <div className="flex min-h-full flex-col justify-between px-6 py-10 text-center sm:px-10 md:px-14 md:py-14">
+      <div className="flex justify-center">
+        <WalletLogo className="h-12 w-12 drop-shadow-md md:h-14 md:w-14" />
+      </div>
+
+      <div className="mx-auto flex w-full max-w-2xl flex-col items-center">
+        <p className="font-display text-4xl font-semibold tracking-tight text-primary-foreground sm:text-5xl md:text-6xl">
+          Pronto para explorar?
+        </p>
+        <p className="mt-4 max-w-lg text-base text-primary-foreground/80 sm:text-lg text-balance">
+          Abra o workspace de exemplo com contas, orçamentos e temas — tudo local,
+          sem cadastro.
+        </p>
+
+        <ul className="mt-10 grid w-full gap-3 text-left sm:grid-cols-3">
+          {[
+            { icon: Wallet, label: "Contas e saldo" },
+            { icon: PiggyBank, label: "Orçamentos vivos" },
+            { icon: LineChart, label: "Relatórios claros" },
+          ].map(({ icon: Icon, label }) => (
+            <li
+              key={label}
+              className="flex items-center gap-2.5 rounded-2xl bg-primary-foreground/10 px-4 py-3.5 text-sm text-primary-foreground/90"
+            >
+              <Icon className="h-4 w-4 shrink-0 opacity-90" />
+              {label}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-center gap-3 pt-8">
+        <Button
+          size="lg"
+          disabled={!ready}
+          onClick={enter}
+          className="h-12 bg-primary-foreground px-8 text-base text-primary hover:bg-primary-foreground/90"
+        >
+          <Sparkles className="mr-2 h-4 w-4" />
+          Entrar na demo
+        </Button>
+        <Button
+          size="lg"
+          variant="ghost"
+          onClick={collapse}
+          className="h-12 text-base text-primary-foreground/85 hover:bg-primary-foreground/10 hover:text-primary-foreground"
+        >
+          Voltar
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export default function LandingPage() {
+  const { init, initialized } = useProjectStore();
 
   useEffect(() => {
     init();
   }, [init]);
-
-  const openDemo = () => {
-    const demo = resetDemoProject();
-    navigate(`/project/${demo.id}`);
-  };
 
   return (
     <div className="relative min-h-screen overflow-hidden mesh-hero text-foreground">
@@ -48,16 +114,16 @@ export default function LandingPage() {
             Contas, orçamentos e relatórios em uma experiência rápida e
             elegante — pronta para explorar em segundos.
           </p>
-          <div className="animate-rise-delay-3 mt-7 flex flex-wrap items-center gap-3 md:mt-9">
-            <Button
-              size="lg"
-              className="h-11 px-6 text-base shadow-md shadow-primary/25 md:h-12 md:px-7"
-              onClick={openDemo}
-              disabled={!initialized}
-            >
-              <Sparkles className="mr-2 h-4 w-4" />
-              Explorar agora
-            </Button>
+          <div className="mt-7 flex flex-wrap items-center gap-3 md:mt-9 animate-rise-delay-3">
+            <ExpandableScreen>
+              <ExpandableScreenTrigger disabled={!initialized}>
+                <Sparkles className="h-4 w-4" />
+                Explorar agora
+              </ExpandableScreenTrigger>
+              <ExpandableScreenContent className="bg-primary text-primary-foreground shadow-2xl">
+                <DemoLaunchPanel ready={initialized} />
+              </ExpandableScreenContent>
+            </ExpandableScreen>
             <Button
               asChild
               size="lg"

@@ -1,17 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet, useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { useProjectStore } from "@/store/projectStore";
 import { useDashboardStore } from "@/store/dashboardStore";
-import { showInfo } from "@/utils/toast";
-
-const DEMO_TOAST_KEY = "mw-demo-welcome";
+import {
+  DemoIntroTour,
+} from "@/components/projects/DemoIntroTour";
+import { hasDismissedDemoIntro } from "@/lib/demo-intro";
 
 export function ProjectRoute() {
   const { projectId } = useParams<{ projectId: string }>();
   const { init, initialized, getProject } = useProjectStore();
   const { loadProject, isLoading, error, data, projectId: loadedId } =
     useDashboardStore();
+  const [introOpen, setIntroOpen] = useState(false);
 
   useEffect(() => {
     init();
@@ -24,13 +26,9 @@ export function ProjectRoute() {
 
   useEffect(() => {
     if (!data?.project.isDemo || !data.project.id) return;
-    const key = `${DEMO_TOAST_KEY}:${data.project.id}`;
-    if (sessionStorage.getItem(key)) return;
-    sessionStorage.setItem(key, "1");
-    showInfo(
-      "Workspace de exemplo",
-      "Explore à vontade — contas, orçamentos e temas. Nada aqui é permanente.",
-    );
+    if (hasDismissedDemoIntro()) return;
+    const timer = window.setTimeout(() => setIntroOpen(true), 450);
+    return () => window.clearTimeout(timer);
   }, [data?.project.id, data?.project.isDemo]);
 
   if (!initialized || isLoading || (projectId && loadedId !== projectId && !error)) {
@@ -46,5 +44,12 @@ export function ProjectRoute() {
     return <Navigate to="/projetos" replace />;
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      {data.project.isDemo && (
+        <DemoIntroTour open={introOpen} onOpenChange={setIntroOpen} />
+      )}
+    </>
+  );
 }
