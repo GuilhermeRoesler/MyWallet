@@ -13,24 +13,21 @@ import { useDashboardStore } from "@/store/dashboardStore";
 function SidebarBrand() {
   const { projectId } = useParams<{ projectId: string }>();
   const { data } = useDashboardStore();
-  const projectName = data?.project.name;
+  const isDemo = data?.project.isDemo;
 
   return (
-    <div className="flex h-auto min-h-14 flex-col justify-center gap-1 border-b border-sidebar-border px-4 py-3 lg:min-h-[68px] lg:px-5">
+    <div className="flex h-14 items-center justify-between gap-2 border-b border-sidebar-border px-4 lg:h-[68px] lg:px-5">
       <Link
         to={projectId ? `/project/${projectId}` : "/"}
-        className="flex items-center gap-2.5 text-base font-semibold hover:opacity-90"
+        className="flex min-w-0 items-center gap-2.5 text-base font-semibold hover:opacity-90"
       >
-        <WalletLogo className="h-8 w-8" />
-        <span className="font-display tracking-tight">My Wallet</span>
+        <WalletLogo className="h-8 w-8 shrink-0" />
+        <span className="font-display tracking-tight truncate">My Wallet</span>
       </Link>
-      {projectName && (
-        <p
-          className="truncate pl-[2.65rem] text-xs text-sidebar-foreground/60"
-          title={projectName}
-        >
-          {projectName}
-        </p>
+      {isDemo && (
+        <span className="shrink-0 rounded-md bg-sidebar-accent/80 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wide text-sidebar-accent-foreground">
+          Demo
+        </span>
       )}
     </div>
   );

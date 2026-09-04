@@ -19,6 +19,12 @@ function toISODate(date: Date): string {
   return `${y}-${m}-${day}`;
 }
 
+/** Evita o parse UTC de `YYYY-MM-DD` (que atrasa 1 dia em fusos negativos). */
+function parseLocalDate(iso: string): Date {
+  const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
+  return new Date(y, m - 1, d, 12, 0, 0, 0);
+}
+
 export function computeBudgetSpent(
   budgets: Omit<Budget, "spent">[],
   transactions: Transaction[],
@@ -31,7 +37,7 @@ export function computeBudgetSpent(
         (t) =>
           t.type === "expense" &&
           t.category === budget.category &&
-          new Date(t.date) >= monthStart,
+          parseLocalDate(t.date) >= monthStart,
       )
       .reduce((sum, t) => sum + Math.abs(Number(t.amount)), 0);
 
@@ -44,7 +50,9 @@ export function computeOverview(
   transactions: Transaction[],
 ): Overview {
   const monthStart = startOfMonth();
-  const monthly = transactions.filter((t) => new Date(t.date) >= monthStart);
+  const monthly = transactions.filter(
+    (t) => parseLocalDate(t.date) >= monthStart,
+  );
 
   return {
     totalBalance: accounts.reduce((sum, a) => sum + Number(a.balance), 0),
@@ -62,7 +70,7 @@ export function computeReports(transactions: Transaction[]): Reports {
   const byCategory = new Map<string, number>();
 
   for (const t of transactions) {
-    if (t.type !== "expense" || new Date(t.date) < monthStart) continue;
+    if (t.type !== "expense" || parseLocalDate(t.date) < monthStart) continue;
     const prev = byCategory.get(t.category) ?? 0;
     byCategory.set(t.category, prev + Math.abs(Number(t.amount)));
   }
@@ -86,7 +94,6 @@ export function computeBalanceOverTime(
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const result: BalanceOverTimeData[] = [];
   let running = totalBalance;
 
   // Work backwards from today, undoing each day's net change
@@ -125,7 +132,8 @@ export function buildDashboardView(project: Project) {
     project,
     accounts: project.accounts,
     transactions: [...project.transactions].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      (a, b) =>
+        parseLocalDate(b.date).getTime() - parseLocalDate(a.date).getTime(),
     ),
     budgets,
     reports,

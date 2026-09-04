@@ -11,7 +11,7 @@ const SettingsPage = () => {
           Configurações
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Preferências deste projeto (persistidas no localStorage).
+          Personalize o perfil, a aparência e as notificações deste workspace.
         </p>
       </div>
       <Separator />

@@ -44,7 +44,7 @@ export function NotificationsForm() {
       <CardHeader>
         <CardTitle>Preferências</CardTitle>
         <CardDescription>
-          Preferências locais deste projeto (sem envio de e-mails reais).
+          Controle o que este workspace deve lembrar você.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -54,7 +54,7 @@ export function NotificationsForm() {
               Lembretes por e-mail
             </Label>
             <p className="text-sm text-muted-foreground">
-              Preferência salva localmente para fins de demo.
+              Alertas de orçamento e vencimentos.
             </p>
           </div>
           <Switch
@@ -69,7 +69,7 @@ export function NotificationsForm() {
               Notificações push
             </Label>
             <p className="text-sm text-muted-foreground">
-              Preferência salva localmente para fins de demo.
+              Avisos em tempo real no dispositivo.
             </p>
           </div>
           <Switch
@@ -84,7 +84,7 @@ export function NotificationsForm() {
               Relatórios mensais
             </Label>
             <p className="text-sm text-muted-foreground">
-              Preferência salva localmente para fins de demo.
+              Resumo automático no fim de cada mês.
             </p>
           </div>
           <Switch

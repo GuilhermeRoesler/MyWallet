@@ -31,7 +31,8 @@ export function AppearanceForm() {
           Aparência
         </CardTitle>
         <CardDescription>
-          Escolha um dos temas curados. A preferência fica salva neste projeto.
+          Temas curados para o visual deste workspace. A escolha é salva no
+          projeto.
         </CardDescription>
       </CardHeader>
       <CardContent>

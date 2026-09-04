@@ -32,7 +32,7 @@ export function DeleteProjectDialog({
           <AlertDialogDescription>
             Esta ação remove permanentemente{" "}
             <strong>{projectName ?? "este projeto"}</strong> e todos os dados
-            associados do localStorage. Não é possível desfazer.
+            associados. Não é possível desfazer.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

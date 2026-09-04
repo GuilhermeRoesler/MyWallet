@@ -23,40 +23,57 @@ const COLORS = [
   "hsl(var(--muted-foreground))",
 ];
 
+/** Categorias de transferência/aporte que poluem o gráfico de gastos. */
+const CHART_EXCLUDED = new Set(["Savings", "Income"]);
+
 export function SpendingByCategoryChart() {
   const { data: dashboardData } = useDashboardStore();
   const currency = dashboardData?.project.settings.currency || "BRL";
 
   const chartData =
-    dashboardData?.reports.spendingByCategory.map((item) => ({
-      name: categoryLabel(item.category),
-      value: Math.abs(Number(item.total)),
-    })) || [];
+    dashboardData?.reports.spendingByCategory
+      .filter((item) => !CHART_EXCLUDED.has(item.category))
+      .map((item) => ({
+        name: categoryLabel(item.category),
+        value: Math.abs(Number(item.total)),
+      }))
+      .sort((a, b) => b.value - a.value) || [];
+
+  const total = chartData.reduce((sum, d) => sum + d.value, 0);
 
   return (
-    <Card className="border-border/80 shadow-sm h-full">
+    <Card className="border-border/80 shadow-sm h-full animate-rise">
       <CardHeader>
         <CardTitle className="font-display text-xl font-semibold">
           Gastos por categoria
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px]">
+        <div className="h-[320px]">
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={chartData}
                   cx="50%"
-                  cy="50%"
-                  innerRadius={55}
-                  outerRadius={88}
-                  paddingAngle={2}
+                  cy="46%"
+                  innerRadius={58}
+                  outerRadius={92}
+                  paddingAngle={3}
                   fill="#8884d8"
                   dataKey="value"
                   nameKey="name"
                   stroke="hsl(var(--card))"
                   strokeWidth={2}
+                  isAnimationActive
+                  animationDuration={800}
+                  animationBegin={120}
+                  label={({ name, percent }) =>
+                    percent >= 0.08
+                      ? `${name} ${(percent * 100).toFixed(0)}%`
+                      : ""
+                  }
+                  labelLine={false}
                 >
                   {chartData.map((_, index) => (
                     <Cell
@@ -70,14 +87,30 @@ export function SpendingByCategoryChart() {
                     backgroundColor: "hsl(var(--card))",
                     borderColor: "hsl(var(--border))",
                     borderRadius: "0.75rem",
+                    boxShadow: "0 8px 24px hsl(var(--foreground) / 0.08)",
                   }}
-                  formatter={(value: number) => formatCurrency(value, currency)}
+                  formatter={(value: number, name: string) => [
+                    formatCurrency(value, currency),
+                    name,
+                  ]}
                 />
                 <Legend
+                  verticalAlign="bottom"
+                  height={48}
                   wrapperStyle={{ fontSize: 12 }}
-                  formatter={(value) => (
-                    <span className="text-muted-foreground">{value}</span>
-                  )}
+                  formatter={(value) => {
+                    const item = chartData.find((d) => d.name === value);
+                    const pct =
+                      item && total > 0
+                        ? ` · ${((item.value / total) * 100).toFixed(0)}%`
+                        : "";
+                    return (
+                      <span className="text-muted-foreground">
+                        {value}
+                        {pct}
+                      </span>
+                    );
+                  }}
                 />
               </PieChart>
             </ResponsiveContainer>

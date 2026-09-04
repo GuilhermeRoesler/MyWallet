@@ -27,11 +27,25 @@ export function formatDate(
     year: "numeric",
   },
 ): string {
-  return new Date(date).toLocaleDateString(DEFAULT_LOCALE, options);
+  const value =
+    typeof date === "string" && /^\d{4}-\d{2}-\d{2}/.test(date)
+      ? (() => {
+          const [y, m, d] = date.slice(0, 10).split("-").map(Number);
+          return new Date(y, m - 1, d, 12);
+        })()
+      : new Date(date);
+  return value.toLocaleDateString(DEFAULT_LOCALE, options);
 }
 
 export function formatChartDate(date: string | Date): string {
-  return new Date(date).toLocaleDateString(DEFAULT_LOCALE, {
+  const value =
+    typeof date === "string" && /^\d{4}-\d{2}-\d{2}/.test(date)
+      ? (() => {
+          const [y, m, d] = date.slice(0, 10).split("-").map(Number);
+          return new Date(y, m - 1, d, 12);
+        })()
+      : new Date(date);
+  return value.toLocaleDateString(DEFAULT_LOCALE, {
     day: "numeric",
     month: "short",
   });

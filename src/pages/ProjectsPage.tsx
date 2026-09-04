@@ -132,14 +132,14 @@ export default function ProjectsPage() {
               Seus projetos financeiros
             </h1>
             <p className="max-w-xl text-muted-foreground text-balance">
-              Escolha um projeto para trabalhar. Todos os dados ficam salvos
-              localmente no seu navegador — ideal para portfólio e demos.
+              Escolha um workspace para continuar. Cada projeto mantém contas,
+              orçamentos e preferências próprios.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={handleResetDemo} className="bg-background/70">
               <Sparkles className="mr-2 h-4 w-4" />
-              Restaurar demo
+              Restaurar exemplo
             </Button>
             <Button onClick={openCreate}>
               <PlusCircle className="mr-2 h-4 w-4" />
@@ -152,7 +152,7 @@ export default function ProjectsPage() {
           <EmptyState
             icon={FolderKanban}
             title="Nenhum projeto ainda"
-            description="Crie um projeto ou restaure a demo para explorar o dashboard completo."
+            description="Crie um workspace ou restaure o exemplo para explorar o dashboard completo."
             actionLabel="Criar projeto"
             onAction={openCreate}
           />

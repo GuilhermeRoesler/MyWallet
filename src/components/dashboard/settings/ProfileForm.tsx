@@ -40,7 +40,7 @@ export function ProfileForm() {
       <CardHeader>
         <CardTitle>Perfil do projeto</CardTitle>
         <CardDescription>
-          Dados exibidos neste workspace (salvos no localStorage).
+          Nome e moeda exibidos nas telas deste projeto.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

@@ -116,7 +116,7 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     const projects = [demo, ...withoutOldDemo];
     persist(projects);
     set({ projects });
-    showSuccess("Projeto demo restaurado.");
+    showSuccess("Workspace de exemplo restaurado.");
     return demo;
   },
 }));

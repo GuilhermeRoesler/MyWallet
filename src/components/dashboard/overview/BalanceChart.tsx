@@ -16,7 +16,7 @@ type BalanceChartProps = {
 
 export function BalanceChart({ data, currency = "BRL" }: BalanceChartProps) {
   return (
-    <div className="h-[300px] w-full">
+    <div className="h-[300px] w-full animate-rise-delay-1">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
           <defs>
@@ -66,6 +66,9 @@ export function BalanceChart({ data, currency = "BRL" }: BalanceChartProps) {
             stroke="hsl(var(--primary))"
             strokeWidth={2.5}
             fill="url(#balanceFill)"
+            isAnimationActive
+            animationDuration={900}
+            animationBegin={80}
             activeDot={{ r: 5, strokeWidth: 2, stroke: "hsl(var(--background))" }}
           />
         </AreaChart>

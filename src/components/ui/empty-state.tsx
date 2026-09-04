@@ -22,19 +22,27 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border/80 bg-muted/30 px-6 py-14 text-center animate-fade-in",
+        "relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-xl border border-dashed border-border/80 bg-gradient-to-b from-muted/40 to-muted/10 px-6 py-16 text-center animate-fade-in",
         className,
       )}
     >
-      <div className="rounded-full bg-primary/10 p-3">
-        <Icon className="h-6 w-6 text-primary" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.08),transparent_55%)]"
+      />
+      <div className="relative rounded-2xl bg-primary/10 p-4 ring-1 ring-primary/15">
+        <Icon className="h-7 w-7 text-primary" />
       </div>
-      <div className="space-y-1.5 max-w-sm">
-        <h3 className="font-display text-lg font-semibold tracking-tight">{title}</h3>
-        <p className="text-sm text-muted-foreground text-balance">{description}</p>
+      <div className="relative space-y-1.5 max-w-sm">
+        <h3 className="font-display text-lg font-semibold tracking-tight">
+          {title}
+        </h3>
+        <p className="text-sm text-muted-foreground text-balance">
+          {description}
+        </p>
       </div>
       {actionLabel && onAction && (
-        <Button className="mt-2" onClick={onAction}>
+        <Button className="relative mt-1 shadow-sm shadow-primary/20" onClick={onAction}>
           {actionLabel}
         </Button>
       )}
