@@ -1,34 +1,30 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { SidebarNav } from "./SidebarNav";
-import { Navbar } from "./Navbar";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { WalletLogo } from "@/components/brand/WalletLogo";
-import { useDashboardStore } from "@/store/dashboardStore";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { AnimatedOutlet } from "./AnimatedOutlet";
+import { Navbar } from "./Navbar";
+import { SidebarNav } from "./SidebarNav";
 
 function SidebarBrand() {
   const { projectId } = useParams<{ projectId: string }>();
-  const { data } = useDashboardStore();
-  const isDemo = data?.project.isDemo;
 
   return (
-    <div className="flex h-14 items-center justify-between gap-2 border-b border-sidebar-border px-4 lg:h-[68px] lg:px-5">
+    <div className="flex h-14 items-center border-b border-sidebar-border px-4 lg:h-[68px] lg:px-5">
       <Link
         to={projectId ? `/project/${projectId}` : "/"}
-        className="flex min-w-0 items-center gap-2.5 text-base font-semibold hover:opacity-90"
+        className="flex items-center gap-2.5 text-base font-semibold hover:opacity-90"
+        title="My Wallet"
       >
         <WalletLogo className="h-8 w-8 shrink-0" />
-        <span className="font-display tracking-tight truncate">My Wallet</span>
-      </Link>
-      {isDemo && (
-        <span className="shrink-0 rounded-md bg-sidebar-accent/80 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wide text-sidebar-accent-foreground">
-          Demo
+        <span className="font-display tracking-tight whitespace-nowrap">
+          My Wallet
         </span>
-      )}
+      </Link>
     </div>
   );
 }
@@ -40,8 +36,8 @@ export function DashboardLayout() {
     return (
       <div className="flex min-h-screen w-full flex-col surface-atmosphere">
         <Navbar />
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-          <Outlet />
+        <main className="flex flex-1 flex-col p-4 md:p-8">
+          <AnimatedOutlet />
         </main>
       </div>
     );
@@ -53,22 +49,22 @@ export function DashboardLayout() {
       className="min-h-screen w-full"
     >
       <ResizablePanel
-        defaultSize="16"
-        minSize="12"
-        maxSize="22"
-        className="bg-sidebar text-sidebar-foreground"
+        defaultSize="18"
+        minSize="16"
+        maxSize="24"
+        className="bg-sidebar text-sidebar-foreground min-w-[200px]"
       >
-        <div className="flex h-full flex-col">
+        <div className="flex h-full min-w-[200px] flex-col">
           <SidebarBrand />
           <SidebarNav />
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize="84">
+      <ResizablePanel defaultSize="82">
         <div className="flex min-h-screen w-full flex-col surface-atmosphere">
           <Navbar />
-          <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-            <Outlet />
+          <main className="flex flex-1 flex-col p-4 md:p-8">
+            <AnimatedOutlet />
           </main>
         </div>
       </ResizablePanel>

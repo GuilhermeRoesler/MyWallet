@@ -29,8 +29,15 @@ import { ProjectFormDialog } from "@/components/projects/ProjectFormDialog";
 import { DeleteProjectDialog } from "@/components/projects/DeleteProjectDialog";
 import { WalletLogo } from "@/components/brand/WalletLogo";
 import { EmptyState } from "@/components/ui/empty-state";
+import { themes } from "@/lib/themes";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+
+function projectTheme(project: Project) {
+  return (
+    themes.find((t) => t.value === project.settings.theme) ?? themes[0]
+  );
+}
 
 export default function ProjectsPage() {
   const navigate = useNavigate();
@@ -137,11 +144,15 @@ export default function ProjectsPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={handleResetDemo} className="bg-background/70">
+            <Button
+              variant="outline"
+              onClick={handleResetDemo}
+              className="border-foreground/15 bg-background shadow-sm"
+            >
               <Sparkles className="mr-2 h-4 w-4" />
               Restaurar exemplo
             </Button>
-            <Button onClick={openCreate}>
+            <Button onClick={openCreate} className="shadow-sm shadow-primary/20">
               <PlusCircle className="mr-2 h-4 w-4" />
               Novo projeto
             </Button>
@@ -158,75 +169,112 @@ export default function ProjectsPage() {
           />
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project, index) => (
-              <Card
-                key={project.id}
-                className="flex flex-col border-border/80 bg-card/90 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-rise"
-                style={{ animationDelay: `${index * 0.06}s` }}
-              >
-                <CardHeader>
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-start gap-3">
-                      <div className="rounded-xl bg-primary/10 p-2.5">
-                        <FolderKanban className="h-5 w-5 text-primary" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <CardTitle className="font-display text-lg font-semibold leading-snug">
-                          {project.name}
-                        </CardTitle>
-                        {project.isDemo && (
-                          <Badge variant="secondary">Demo</Badge>
-                        )}
-                      </div>
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="shrink-0">
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => openEdit(project)}>
-                          Editar
-                        </DropdownMenuItem>
-                        {!project.isDemo && (
-                          <DropdownMenuItem
-                            className="text-destructive"
-                            onClick={() => openDelete(project)}
-                          >
-                            Excluir
-                          </DropdownMenuItem>
-                        )}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                  <CardDescription className="line-clamp-3 pt-2">
-                    {project.description || "Sem descrição."}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="mt-auto space-y-1 text-sm text-muted-foreground">
-                  <p>
-                    {project.accounts.length} contas ·{" "}
-                    {project.transactions.length} transações ·{" "}
-                    {project.budgets.length} orçamentos
-                  </p>
-                  <p>
-                    Atualizado em{" "}
-                    {format(new Date(project.updatedAt), "dd MMM yyyy", {
-                      locale: ptBR,
-                    })}
-                  </p>
-                </CardContent>
-                <CardFooter>
-                  <Button
-                    className="w-full"
-                    onClick={() => navigate(`/project/${project.id}`)}
+            {projects.map((project, index) => {
+              const theme = projectTheme(project);
+              return (
+                <Card
+                  key={project.id}
+                  className="group flex flex-col overflow-hidden border-border/80 bg-card/95 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-rise"
+                  style={{ animationDelay: `${index * 0.06}s` }}
+                >
+                  <div
+                    className="relative h-16 overflow-hidden"
+                    style={{ background: theme.swatch.background }}
+                    aria-hidden
                   >
-                    Abrir projeto
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
+                    <div
+                      className="absolute inset-y-0 left-0 w-[28%]"
+                      style={{ background: theme.swatch.accent }}
+                    />
+                    <div
+                      className="absolute -right-4 -top-6 h-24 w-24 rounded-full opacity-80 blur-2xl"
+                      style={{ background: theme.swatch.primary }}
+                    />
+                    <div className="absolute bottom-2.5 left-3 flex items-center gap-2">
+                      <span
+                        className="h-2.5 w-2.5 rounded-full shadow-sm ring-2 ring-white/50"
+                        style={{ background: theme.swatch.primary }}
+                      />
+                      <span className="text-[10px] font-medium uppercase tracking-wider text-foreground/60">
+                        {theme.name}
+                      </span>
+                    </div>
+                  </div>
+
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-start gap-3">
+                        <div
+                          className="rounded-xl p-2.5"
+                          style={{
+                            background: `${theme.swatch.primary}18`,
+                            color: theme.swatch.primary,
+                          }}
+                        >
+                          <FolderKanban className="h-5 w-5" />
+                        </div>
+                        <div className="space-y-1.5">
+                          <CardTitle className="font-display text-lg font-semibold leading-snug">
+                            {project.name}
+                          </CardTitle>
+                          {project.isDemo && (
+                            <Badge variant="secondary">Demo</Badge>
+                          )}
+                        </div>
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="shrink-0"
+                          >
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => openEdit(project)}>
+                            Editar
+                          </DropdownMenuItem>
+                          {!project.isDemo && (
+                            <DropdownMenuItem
+                              className="text-destructive"
+                              onClick={() => openDelete(project)}
+                            >
+                              Excluir
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <CardDescription className="line-clamp-2 pt-2 text-foreground/65">
+                      {project.description || "Sem descrição."}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="mt-auto space-y-1 text-sm text-muted-foreground">
+                    <p className="tabular-nums text-foreground/70">
+                      {project.accounts.length} contas ·{" "}
+                      {project.transactions.length} transações ·{" "}
+                      {project.budgets.length} orçamentos
+                    </p>
+                    <p>
+                      Atualizado em{" "}
+                      {format(new Date(project.updatedAt), "dd MMM yyyy", {
+                        locale: ptBR,
+                      })}
+                    </p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button
+                      className="w-full shadow-sm shadow-primary/15"
+                      onClick={() => navigate(`/project/${project.id}`)}
+                    >
+                      Abrir projeto
+                    </Button>
+                  </CardFooter>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>

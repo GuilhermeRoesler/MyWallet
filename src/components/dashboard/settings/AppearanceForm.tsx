@@ -30,9 +30,9 @@ export function AppearanceForm() {
         <CardTitle className="font-display text-xl font-semibold">
           Aparência
         </CardTitle>
-        <CardDescription>
-          Temas curados para o visual deste workspace. A escolha é salva no
-          projeto.
+        <CardDescription className="text-foreground/70">
+          Temas curados com prévia ao vivo. A escolha é salva neste workspace —
+          experimente e veja o app inteiro mudar.
         </CardDescription>
       </CardHeader>
       <CardContent>

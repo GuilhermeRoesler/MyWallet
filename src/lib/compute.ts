@@ -65,12 +65,58 @@ export function computeOverview(
   };
 }
 
-export function computeReports(transactions: Transaction[]): Reports {
-  const monthStart = startOfMonth();
+export type DateRangeFilter = {
+  from: Date;
+  to: Date;
+};
+
+function rangeBounds(range?: DateRangeFilter): { start: Date; end: Date } {
+  if (range?.from && range?.to) {
+    const start = new Date(range.from);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(range.to);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  }
+  const start = startOfMonth();
+  const end = new Date();
+  end.setHours(23, 59, 59, 999);
+  return { start, end };
+}
+
+export function filterTransactionsByRange(
+  transactions: Transaction[],
+  range?: DateRangeFilter,
+): Transaction[] {
+  const { start, end } = rangeBounds(range);
+  return transactions.filter((t) => {
+    const d = parseLocalDate(t.date);
+    return d >= start && d <= end;
+  });
+}
+
+export function computePeriodTotals(transactions: Transaction[]) {
+  return {
+    income: transactions
+      .filter((t) => t.type === "income")
+      .reduce((sum, t) => sum + Math.abs(Number(t.amount)), 0),
+    expense: transactions
+      .filter((t) => t.type === "expense")
+      .reduce((sum, t) => sum + Math.abs(Number(t.amount)), 0),
+  };
+}
+
+export function computeReports(
+  transactions: Transaction[],
+  range?: DateRangeFilter,
+): Reports {
+  const { start, end } = rangeBounds(range);
   const byCategory = new Map<string, number>();
 
   for (const t of transactions) {
-    if (t.type !== "expense" || parseLocalDate(t.date) < monthStart) continue;
+    if (t.type !== "expense") continue;
+    const d = parseLocalDate(t.date);
+    if (d < start || d > end) continue;
     const prev = byCategory.get(t.category) ?? 0;
     byCategory.set(t.category, prev + Math.abs(Number(t.amount)));
   }
@@ -82,6 +128,50 @@ export function computeReports(transactions: Transaction[]): Reports {
         total: total.toFixed(2),
       }),
     ),
+  };
+}
+
+export type OverspentBudget = {
+  category: string;
+  spent: number;
+  allocated: number;
+  ratio: number;
+};
+
+export type FinancialInsights = {
+  overspent: OverspentBudget[];
+  netFlow: number;
+  topCategory: { category: string; total: number } | null;
+};
+
+/** Insights narrativos para a visão geral (orçamentos + fluxo do mês). */
+export function computeInsights(
+  budgets: Budget[],
+  overview: Overview,
+  spendingByCategory: { category: string; total: string }[],
+): FinancialInsights {
+  const overspent = budgets
+    .filter((b) => b.allocated > 0 && b.spent > b.allocated)
+    .map((b) => ({
+      category: b.category,
+      spent: b.spent,
+      allocated: b.allocated,
+      ratio: b.spent / b.allocated,
+    }))
+    .sort((a, b) => b.ratio - a.ratio);
+
+  const top = [...spendingByCategory]
+    .map((item) => ({
+      category: item.category,
+      total: Math.abs(Number(item.total)),
+    }))
+    .filter((item) => item.category !== "Savings" && item.category !== "Income")
+    .sort((a, b) => b.total - a.total)[0];
+
+  return {
+    overspent,
+    netFlow: overview.monthlyIncome - overview.monthlyExpense,
+    topCategory: top ?? null,
   };
 }
 

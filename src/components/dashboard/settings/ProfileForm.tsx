@@ -34,10 +34,12 @@ function ProfileFormFields({ projectId, settings }: ProfileFormFieldsProps) {
   };
 
   return (
-    <Card>
+    <Card className="border-border/80 shadow-sm">
       <CardHeader>
-        <CardTitle>Perfil do projeto</CardTitle>
-        <CardDescription>
+        <CardTitle className="font-display text-xl font-semibold">
+          Perfil do projeto
+        </CardTitle>
+        <CardDescription className="text-foreground/70">
           Nome e moeda exibidos nas telas deste projeto.
         </CardDescription>
       </CardHeader>
@@ -61,7 +63,12 @@ function ProfileFormFields({ projectId, settings }: ProfileFormFieldsProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={handleSaveChanges}>Salvar alterações</Button>
+        <Button
+          onClick={handleSaveChanges}
+          className="shadow-sm shadow-primary/20"
+        >
+          Salvar alterações
+        </Button>
       </CardFooter>
     </Card>
   );

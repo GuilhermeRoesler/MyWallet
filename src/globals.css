@@ -83,6 +83,29 @@
   .animate-fade-in {
     animation: fade-in 0.5s ease-out both;
   }
+
+  .animate-page-enter {
+    animation: page-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 4s ease-in-out infinite;
+  }
+
+  .animate-bar-fill {
+    transform-origin: left center;
+    animation: bar-fill 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+  }
+
+  .animate-draw-line {
+    stroke-dasharray: 420;
+    stroke-dashoffset: 420;
+    animation: draw-line 1.4s ease-out 0.3s both;
+  }
 }
 
 @keyframes rise {
@@ -102,5 +125,70 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes bar-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-rise-delay-1,
+  .animate-rise-delay-2,
+  .animate-rise-delay-3,
+  .animate-fade-in,
+  .animate-page-enter,
+  .animate-scale-in,
+  .animate-pulse-soft,
+  .animate-bar-fill,
+  .animate-draw-line {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
   }
 }

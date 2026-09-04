@@ -7,3 +7,7 @@ export const showSuccess = (message: string) => {
 export const showError = (message: string) => {
   toast.error(message);
 };
+
+export const showInfo = (message: string, description?: string) => {
+  toast.message(message, description ? { description } : undefined);
+};

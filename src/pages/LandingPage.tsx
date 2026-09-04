@@ -41,14 +41,14 @@ export default function LandingPage() {
           <h1 className="animate-rise-delay-1 font-display text-xl font-medium tracking-tight text-foreground sm:text-2xl md:text-[1.85rem] md:leading-snug lg:text-[2.15rem] text-balance">
             Finanças pessoais com a clareza de um produto premium.
           </h1>
-          <p className="animate-rise-delay-2 mt-4 max-w-lg text-sm leading-relaxed text-foreground/75 sm:text-base md:text-lg text-balance">
+          <p className="animate-rise-delay-2 mt-4 max-w-lg text-sm leading-relaxed text-foreground/80 sm:text-base md:text-lg text-balance">
             Contas, orçamentos e relatórios em uma experiência rápida e
             elegante — pronta para explorar em segundos.
           </p>
           <div className="animate-rise-delay-3 mt-7 flex flex-wrap items-center gap-3 md:mt-9">
             <Button
               size="lg"
-              className="h-11 px-6 text-base shadow-md shadow-primary/25 md:h-12 md:px-7"
+              className="h-11 px-6 text-base shadow-md shadow-primary/25 transition-transform duration-300 hover:-translate-y-0.5 md:h-12 md:px-7"
               onClick={openDemo}
               disabled={!initialized}
             >
@@ -59,7 +59,7 @@ export default function LandingPage() {
               asChild
               size="lg"
               variant="outline"
-              className="h-11 px-6 text-base border-foreground/15 bg-background/80 backdrop-blur-sm md:h-12 md:px-7"
+              className="h-11 px-6 text-base border-foreground/20 bg-background/90 shadow-sm backdrop-blur-sm transition-transform duration-300 hover:-translate-y-0.5 md:h-12 md:px-7"
             >
               <Link to="/projetos">
                 Ver projetos

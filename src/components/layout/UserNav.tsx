@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useNavigate } from "react-router-dom";
 
@@ -23,16 +23,20 @@ export function UserNav() {
       .map((n) => n[0])
       .join("")
       .toUpperCase()
-      .slice(0, 2);
+      .slice(0, 2) || "MW";
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+        <Button
+          variant="ghost"
+          className="relative h-9 w-9 rounded-full ring-1 ring-border/80 hover:ring-primary/40"
+        >
           <Avatar className="h-8 w-8">
-            <AvatarImage src={`${import.meta.env.BASE_URL}placeholder.svg`} alt={user?.name} />
-            <AvatarFallback>{getInitials(user?.name)}</AvatarFallback>
+            <AvatarFallback className="bg-primary/15 text-xs font-semibold text-primary">
+              {getInitials(user?.name)}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

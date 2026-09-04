@@ -12,7 +12,7 @@
     --secondary: 165 25% 94%;
     --secondary-foreground: 168 35% 16%;
     --muted: 160 18% 94%;
-    --muted-foreground: 168 12% 40%;
+    --muted-foreground: 168 16% 32%;
     --accent: 165 30% 92%;
     --accent-foreground: 168 35% 14%;
     --destructive: 0 72% 51%;
@@ -21,8 +21,8 @@
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
     --warning-foreground: 38 90% 12%;
-    --border: 165 16% 88%;
-    --input: 165 16% 88%;
+    --border: 165 16% 82%;
+    --input: 165 14% 78%;
     --ring: 168 72% 28%;
     --radius: 0.875rem;
     --sidebar-background: 170 28% 11%;

@@ -5,10 +5,10 @@ export function DashboardPreview() {
   return (
     <div
       aria-hidden
-      className="relative w-full max-w-lg xl:max-w-xl animate-rise-delay-2"
+      className="relative w-full max-w-lg xl:max-w-xl animate-scale-in"
     >
-      <div className="absolute -inset-4 rounded-[2rem] bg-primary/10 blur-2xl" />
-      <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card shadow-2xl shadow-foreground/12 ring-1 ring-foreground/5">
+      <div className="absolute -inset-4 rounded-[2rem] bg-primary/10 blur-2xl animate-pulse-soft" />
+      <div className="relative overflow-hidden rounded-2xl border border-border/70 bg-card shadow-2xl shadow-foreground/12 ring-1 ring-foreground/5 transition-transform duration-500 hover:-translate-y-1 hover:shadow-2xl">
         {/* Chrome */}
         <div className="flex items-center gap-2 border-b border-border/60 bg-muted/40 px-4 py-2.5">
           <span className="h-2.5 w-2.5 rounded-full bg-destructive/40" />
@@ -117,6 +117,7 @@ export function DashboardPreview() {
                   stroke="hsl(168 78% 24%)"
                   strokeWidth="2.5"
                   strokeLinecap="round"
+                  className="animate-draw-line"
                 />
               </svg>
             </div>
@@ -143,7 +144,7 @@ export function DashboardPreview() {
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-muted">
                       <div
-                        className={`h-full rounded-full ${row.tone}`}
+                        className={`h-full rounded-full ${row.tone} animate-bar-fill`}
                         style={{ width: `${Math.min(row.pct, 100)}%` }}
                       />
                     </div>

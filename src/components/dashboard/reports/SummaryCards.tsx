@@ -4,18 +4,24 @@ import { useDashboardStore } from "@/store/dashboardStore";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
-export function SummaryCards() {
-  const { data: dashboardData } = useDashboardStore();
-  const overview = dashboardData?.overview;
-  const currency = dashboardData?.project.settings.currency || "BRL";
+type SummaryCardsProps = {
+  income: number;
+  expense: number;
+  periodLabel?: string;
+};
 
-  const totalIncome = overview?.monthlyIncome || 0;
-  const totalExpense = overview?.monthlyExpense || 0;
-  const netSavings = totalIncome - totalExpense;
+export function SummaryCards({
+  income,
+  expense,
+  periodLabel = "No período selecionado",
+}: SummaryCardsProps) {
+  const { data: dashboardData } = useDashboardStore();
+  const currency = dashboardData?.project.settings.currency || "BRL";
+  const netSavings = income - expense;
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
-      <Card className="border-border/80 shadow-sm relative overflow-hidden">
+      <Card className="border-border/80 shadow-sm relative overflow-hidden animate-rise">
         <div className="absolute inset-x-0 top-0 h-0.5 bg-success" />
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -25,12 +31,12 @@ export function SummaryCards() {
         </CardHeader>
         <CardContent>
           <div className="font-display text-2xl font-semibold tabular-nums text-success">
-            {formatCurrency(totalIncome, currency)}
+            {formatCurrency(income, currency)}
           </div>
-          <p className="text-xs text-muted-foreground mt-1">No mês atual</p>
+          <p className="text-xs text-muted-foreground mt-1">{periodLabel}</p>
         </CardContent>
       </Card>
-      <Card className="border-border/80 shadow-sm relative overflow-hidden">
+      <Card className="border-border/80 shadow-sm relative overflow-hidden animate-rise-delay-1">
         <div className="absolute inset-x-0 top-0 h-0.5 bg-destructive" />
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -40,12 +46,12 @@ export function SummaryCards() {
         </CardHeader>
         <CardContent>
           <div className="font-display text-2xl font-semibold tabular-nums text-destructive">
-            −{formatCurrency(totalExpense, currency)}
+            −{formatCurrency(expense, currency)}
           </div>
-          <p className="text-xs text-muted-foreground mt-1">No mês atual</p>
+          <p className="text-xs text-muted-foreground mt-1">{periodLabel}</p>
         </CardContent>
       </Card>
-      <Card className="border-border/80 shadow-sm relative overflow-hidden">
+      <Card className="border-border/80 shadow-sm relative overflow-hidden animate-rise-delay-2">
         <div
           className={cn(
             "absolute inset-x-0 top-0 h-0.5",

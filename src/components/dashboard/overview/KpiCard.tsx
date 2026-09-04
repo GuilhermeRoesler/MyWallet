@@ -85,15 +85,20 @@ export function KpiCard({
     <div
       style={style}
       className={cn(
-        "group relative overflow-hidden rounded-xl border bg-card p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md",
+        "group relative overflow-hidden rounded-xl border border-border/80 bg-card p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-border hover:shadow-lg",
         className,
       )}
     >
-      <div className={cn("absolute inset-x-0 top-0 h-0.5", accent)} />
+      <div
+        className={cn(
+          "absolute inset-x-0 top-0 h-0.5 transition-all duration-300 group-hover:h-1",
+          accent,
+        )}
+      />
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1 min-w-0">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <p className="font-display text-2xl font-semibold tracking-tight tabular-nums truncate">
+          <p className="font-display text-2xl font-semibold tracking-tight tabular-nums leading-tight">
             {value}
           </p>
         </div>

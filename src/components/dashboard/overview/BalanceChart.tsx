@@ -67,8 +67,9 @@ export function BalanceChart({ data, currency = "BRL" }: BalanceChartProps) {
             strokeWidth={2.5}
             fill="url(#balanceFill)"
             isAnimationActive
-            animationDuration={900}
-            animationBegin={80}
+            animationDuration={1200}
+            animationBegin={100}
+            animationEasing="ease-out"
             activeDot={{ r: 5, strokeWidth: 2, stroke: "hsl(var(--background))" }}
           />
         </AreaChart>

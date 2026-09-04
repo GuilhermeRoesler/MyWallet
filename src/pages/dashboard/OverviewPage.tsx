@@ -6,6 +6,7 @@ import {
   ArrowDownCircle,
 } from "lucide-react";
 import { RecentTransactionsCard } from "@/components/dashboard/overview/RecentTransactionsCard";
+import { InsightBanner } from "@/components/dashboard/overview/InsightBanner";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { Skeleton } from "@/components/ui/skeleton";
 import { KpiCard } from "@/components/dashboard/overview/KpiCard";
@@ -38,6 +39,10 @@ const OverviewPage = () => {
           <Skeleton className="h-9 w-64" />
           <Skeleton className="h-5 w-80 mt-2" />
         </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Skeleton className="h-20" />
+          <Skeleton className="h-20" />
+        </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Skeleton className="h-32" />
           <Skeleton className="h-32" />
@@ -62,6 +67,8 @@ const OverviewPage = () => {
           Resumo da saúde financeira deste projeto.
         </p>
       </div>
+
+      <InsightBanner />
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <KpiCard
