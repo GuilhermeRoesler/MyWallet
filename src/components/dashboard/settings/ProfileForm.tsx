@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,22 +12,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useProjectStore } from "@/store/projectStore";
+import type { ProjectSettings } from "@/types";
 
-export function ProfileForm() {
-  const { data, loadProject, projectId } = useDashboardStore();
+type ProfileFormFieldsProps = {
+  projectId: string;
+  settings: ProjectSettings;
+};
+
+function ProfileFormFields({ projectId, settings }: ProfileFormFieldsProps) {
+  const loadProject = useDashboardStore((s) => s.loadProject);
   const updateProjectSettings = useProjectStore((s) => s.updateProjectSettings);
-  const [ownerName, setOwnerName] = useState("");
-  const [currency, setCurrency] = useState("BRL");
-
-  useEffect(() => {
-    if (data?.project.settings) {
-      setOwnerName(data.project.settings.ownerName);
-      setCurrency(data.project.settings.currency);
-    }
-  }, [data?.project.settings]);
+  const [ownerName, setOwnerName] = useState(settings.ownerName);
+  const [currency, setCurrency] = useState(settings.currency);
 
   const handleSaveChanges = () => {
-    if (!projectId) return;
     updateProjectSettings(projectId, {
       ownerName: ownerName.trim() || "Você",
       currency: currency.trim() || "BRL",
@@ -66,5 +64,20 @@ export function ProfileForm() {
         <Button onClick={handleSaveChanges}>Salvar alterações</Button>
       </CardFooter>
     </Card>
+  );
+}
+
+export function ProfileForm() {
+  const { data, projectId } = useDashboardStore();
+  const settings = data?.project.settings;
+
+  if (!projectId || !settings) return null;
+
+  return (
+    <ProfileFormFields
+      key={projectId}
+      projectId={projectId}
+      settings={settings}
+    />
   );
 }

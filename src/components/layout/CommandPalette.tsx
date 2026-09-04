@@ -104,16 +104,23 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     );
   }, [items, query]);
 
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query, open]);
+  const handleOpenChange = (next: boolean) => {
+    if (!next) {
+      setQuery("");
+      setActiveIndex(0);
+    }
+    onOpenChange(next);
+  };
 
-  useEffect(() => {
-    if (!open) setQuery("");
-  }, [open]);
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+    setActiveIndex(0);
+  };
 
   const run = useCallback(
     (href: string) => {
+      setQuery("");
+      setActiveIndex(0);
       onOpenChange(false);
       navigate(href);
     },
@@ -134,7 +141,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent
         className="gap-0 overflow-hidden p-0 sm:max-w-lg [&>button]:hidden"
         onKeyDown={onKeyDown}
@@ -148,7 +155,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
           <input
             autoFocus
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => handleQueryChange(e.target.value)}
             placeholder="Buscar páginas…"
             className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />

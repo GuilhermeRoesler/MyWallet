@@ -23,11 +23,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useEffect } from "react";
-import { Budget } from "@/types"; // Assuming you have a types file
+import { Budget } from "@/types";
 
 const budgetSchema = z.object({
   category: z.string().min(1, { error: "A categoria é obrigatória." }),
@@ -56,7 +56,7 @@ export function BudgetFormDialog({
   budgetToEdit,
 }: BudgetFormDialogProps) {
   const form = useForm<BudgetFormValues>({
-    resolver: zodResolver(budgetSchema),
+    resolver: zodResolver(budgetSchema) as Resolver<BudgetFormValues>,
     defaultValues: {
       category: "",
       allocated: 0,

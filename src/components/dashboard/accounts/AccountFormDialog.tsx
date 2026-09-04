@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useEffect } from "react";
@@ -59,7 +59,7 @@ export function AccountFormDialog({
   accountToEdit,
 }: AccountFormDialogProps) {
   const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountSchema),
+    resolver: zodResolver(accountSchema) as Resolver<AccountFormValues>,
     defaultValues: {
       name: "",
       type: "Bank",

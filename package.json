@@ -7,8 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "typecheck": "tsc -b --pretty false",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "preview": "vite preview",
+    "ci": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
+
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -57,7 +62,8 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.69.0",
-    "vite": "^8.2.2"
+    "vite": "^8.2.2",
+    "vitest": "^5.0.0"
   },
   "allowScripts": {
     "@swc/core@1.16.1": true

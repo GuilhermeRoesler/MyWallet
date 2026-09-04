@@ -58,7 +58,9 @@ export function signedCurrency(
 ): string {
   const abs = Math.abs(amount);
   const formatted = formatCurrency(abs, currency);
-  if (type === "income" || amount > 0) return `+${formatted}`;
-  if (type === "expense" || amount < 0) return `−${formatted}`;
+  if (type === "income") return `+${formatted}`;
+  if (type === "expense") return `−${formatted}`;
+  if (amount > 0) return `+${formatted}`;
+  if (amount < 0) return `−${formatted}`;
   return formatted;
 }

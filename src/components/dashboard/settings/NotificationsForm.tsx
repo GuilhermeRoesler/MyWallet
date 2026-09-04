@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,25 +12,31 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useProjectStore } from "@/store/projectStore";
+import type { ProjectSettings } from "@/types";
 
-export function NotificationsForm() {
-  const { data, loadProject, projectId } = useDashboardStore();
+type NotificationsFormFieldsProps = {
+  projectId: string;
+  settings: ProjectSettings;
+};
+
+function NotificationsFormFields({
+  projectId,
+  settings,
+}: NotificationsFormFieldsProps) {
+  const loadProject = useDashboardStore((s) => s.loadProject);
   const updateProjectSettings = useProjectStore((s) => s.updateProjectSettings);
 
-  const [emailNotifications, setEmailNotifications] = useState(true);
-  const [pushNotifications, setPushNotifications] = useState(false);
-  const [monthlyReports, setMonthlyReports] = useState(true);
-
-  useEffect(() => {
-    if (data?.project.settings) {
-      setEmailNotifications(data.project.settings.email_notifications);
-      setPushNotifications(data.project.settings.push_notifications);
-      setMonthlyReports(data.project.settings.monthly_reports);
-    }
-  }, [data?.project.settings]);
+  const [emailNotifications, setEmailNotifications] = useState(
+    settings.email_notifications,
+  );
+  const [pushNotifications, setPushNotifications] = useState(
+    settings.push_notifications,
+  );
+  const [monthlyReports, setMonthlyReports] = useState(
+    settings.monthly_reports,
+  );
 
   const handleSaveChanges = () => {
-    if (!projectId) return;
     updateProjectSettings(projectId, {
       email_notifications: emailNotifications,
       push_notifications: pushNotifications,
@@ -98,5 +104,20 @@ export function NotificationsForm() {
         <Button onClick={handleSaveChanges}>Salvar preferências</Button>
       </CardFooter>
     </Card>
+  );
+}
+
+export function NotificationsForm() {
+  const { data, projectId } = useDashboardStore();
+  const settings = data?.project.settings;
+
+  if (!projectId || !settings) return null;
+
+  return (
+    <NotificationsFormFields
+      key={projectId}
+      projectId={projectId}
+      settings={settings}
+    />
   );
 }

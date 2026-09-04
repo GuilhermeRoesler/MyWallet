@@ -73,8 +73,14 @@ src/
 npm run dev       # http://localhost:8080
 npm run build
 npm run preview
+npm run lint
+npm run typecheck
+npm run test
+npm run ci        # lint + typecheck + test + build
 VITE_BASE_PATH=/MyWallet/ npm run build   # simular Pages
 ```
+
+CI: `.github/workflows/ci.yml` (PR / branches). Deploy Pages: `.github/workflows/deploy-pages.yml` (main) — só publica após os quality gates do CI.
 
 ## Ao estender o produto
 
