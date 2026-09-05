@@ -26,8 +26,19 @@ description: >-
 | Charts | Recharts |
 | Rotas | React Router 7 (`BrowserRouter` + `basename` de `import.meta.env.BASE_URL`) |
 | Temas | `next-themes` + classes CSS por tema |
+| PWA | `vite-plugin-pwa` (manifest + service worker, `autoUpdate`) |
 
 Alias: `@/` → `src/` (ver `vite.config.ts`).
+
+## PWA
+
+- Manifest e service worker gerados no **build** (`vite-plugin-pwa`)
+- Offline: shell do app em cache + dados no `localStorage`; fontes Google via runtime cache
+- `start_url` / `scope` relativos (`./`) para funcionar com `VITE_BASE_PATH=/MyWallet/`
+- Testar com `npm run build && npm run preview` (SW não roda no `dev` por padrão)
+- Critério de instalação (Chrome): HTTPS (ou localhost) + manifest + ícones + SW
+
+Não confundir com APK: PWA é o site instalável no navegador, sem Capacitor/Play Store.
 
 ## Mapa de pastas
 

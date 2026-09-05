@@ -14,6 +14,6 @@ Antes de alterar rotas, estrutura de pastas, deploy ou o modelo de produto, leia
 ## Regras rápidas
 
 - Não introduza API, auth real nem banco remoto
-- Alias `@/` → `src/`; stack: React 19 + Vite + TS + Zustand + Shadcn
+- Alias `@/` → `src/`; stack: React 19 + Vite + TS + Zustand + Shadcn + PWA
 - Rotas PT: `/`, `/projetos`, `/project/:projectId/...`
 - UI e textos em **português (pt-BR)**; moeda padrão **BRL**
