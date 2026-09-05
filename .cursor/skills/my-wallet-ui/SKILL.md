@@ -73,9 +73,11 @@ Preferir toasts nos stores para mutações compartilhadas; na UI só quando for 
 
 ## Layout do dashboard
 
-- `DashboardLayout` + `AppDock` + `Navbar` / `UserNav`
-- Rotas filhas via `<Outlet />`
-- Manter navegação alinhada com paths em `App.tsx` e `nav-items.ts`
+- `DashboardLayout` + `SidebarNav` + `AppDock` + `Navbar` / `UserNav`
+- Desktop: sidebar recolhível; ao fechar, dock sobe; ao abrir (fita lateral, só clique), dock desce
+- Mobile: só dock (sem sidebar)
+- Preferência `sidebarOpen` em `localStorage` via `useSidebarOpen`
+- Rotas filhas via `<Outlet />`; itens em `nav-items.ts`
 
 ## Checklist de novo feature UI
 

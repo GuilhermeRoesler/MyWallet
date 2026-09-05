@@ -11,7 +11,12 @@ import {
   useCommandPaletteShortcut,
 } from "./CommandPalette";
 
-export function Navbar() {
+type NavbarProps = {
+  /** Exibe logo/marca na top bar (ocultar quando a sidebar já mostra). */
+  showBrand?: boolean;
+};
+
+export function Navbar({ showBrand = true }: NavbarProps) {
   const { projectId } = useParams<{ projectId: string }>();
   const { data } = useDashboardStore();
   const projectName = data?.project.name;
@@ -28,19 +33,23 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border/60 bg-background/80 px-4 backdrop-blur-md sm:h-16 sm:px-6">
-        <Link
-          to={projectId ? `/project/${projectId}` : "/"}
-          className="flex shrink-0 items-center gap-2 font-display text-base font-semibold tracking-tight hover:opacity-90"
-          title="My Wallet"
-        >
-          <WalletLogo className="h-7 w-7 sm:h-8 sm:w-8" />
-          <span className="hidden sm:inline">My Wallet</span>
-        </Link>
+        {showBrand && (
+          <Link
+            to={projectId ? `/project/${projectId}` : "/"}
+            className="flex shrink-0 items-center gap-2 font-display text-base font-semibold tracking-tight hover:opacity-90"
+            title="My Wallet"
+          >
+            <WalletLogo className="h-7 w-7 sm:h-8 sm:w-8" />
+            <span className="hidden sm:inline">My Wallet</span>
+          </Link>
+        )}
 
         <div className="min-w-0 flex-1 items-center gap-2 flex">
           {projectName && (
             <>
-              <span className="hidden h-4 w-px shrink-0 bg-border sm:block" />
+              {showBrand && (
+                <span className="hidden h-4 w-px shrink-0 bg-border sm:block" />
+              )}
               <span className="truncate text-sm font-medium text-foreground/80">
                 {projectName}
               </span>

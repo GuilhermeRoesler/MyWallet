@@ -36,7 +36,7 @@ src/
   pages/                 # Landing, Projects, dashboard/*, NotFound
   components/
     ui/                  # Shadcn primitivos
-    layout/              # DashboardLayout, Navbar, AppDock, CommandPalette
+    layout/              # DashboardLayout, SidebarNav, AppDock, Navbar, CommandPalette
     dashboard/           # Features por domínio (accounts, budgets, …)
     projects/            # CRUD de projetos + ProjectRoute
     landing/             # Preview da landing
