@@ -150,6 +150,10 @@
     stroke-dashoffset: 420;
     animation: draw-line 1.4s ease-out 0.3s both;
   }
+
+  .animate-scroll-hint {
+    animation: scroll-hint 1.8s ease-in-out infinite;
+  }
 }
 
 @keyframes rise {
@@ -219,6 +223,18 @@
   }
 }
 
+@keyframes scroll-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise,
   .animate-rise-delay-1,
@@ -229,7 +245,8 @@
   .animate-scale-in,
   .animate-pulse-soft,
   .animate-bar-fill,
-  .animate-draw-line {
+  .animate-draw-line,
+  .animate-scroll-hint {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;

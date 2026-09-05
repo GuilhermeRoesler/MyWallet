@@ -5,6 +5,7 @@ import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
+import { SmoothScroll } from "./components/layout/SmoothScroll";
 import OverviewPage from "./pages/dashboard/OverviewPage";
 import AccountsPage from "./pages/dashboard/AccountsPage";
 import TransactionsPage from "./pages/dashboard/TransactionsPage";
@@ -27,29 +28,31 @@ const App = () => (
   >
     <TooltipProvider>
       <Toaster />
-      <BrowserRouter basename={basename}>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/projetos" element={<ProjectsPage />} />
+      <SmoothScroll>
+        <BrowserRouter basename={basename}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/projetos" element={<ProjectsPage />} />
 
-          <Route path="/project/:projectId" element={<ProjectRoute />}>
-            <Route element={<DashboardLayout />}>
-              <Route index element={<OverviewPage />} />
-              <Route path="accounts" element={<AccountsPage />} />
-              <Route path="transactions" element={<TransactionsPage />} />
-              <Route path="budgets" element={<BudgetsPage />} />
-              <Route path="reports" element={<ReportsPage />} />
-              <Route path="settings" element={<SettingsPage />} />
+            <Route path="/project/:projectId" element={<ProjectRoute />}>
+              <Route element={<DashboardLayout />}>
+                <Route index element={<OverviewPage />} />
+                <Route path="accounts" element={<AccountsPage />} />
+                <Route path="transactions" element={<TransactionsPage />} />
+                <Route path="budgets" element={<BudgetsPage />} />
+                <Route path="reports" element={<ReportsPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+              </Route>
             </Route>
-          </Route>
 
-          <Route path="/projects" element={<Navigate to="/projetos" replace />} />
-          <Route path="/dashboard/*" element={<Navigate to="/projetos" replace />} />
-          <Route path="/login" element={<Navigate to="/" replace />} />
-          <Route path="/register" element={<Navigate to="/" replace />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="/projects" element={<Navigate to="/projetos" replace />} />
+            <Route path="/dashboard/*" element={<Navigate to="/projetos" replace />} />
+            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="/register" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </SmoothScroll>
     </TooltipProvider>
   </ThemeProvider>
 );

@@ -1,7 +1,12 @@
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Search } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ArrowLeft, Search } from "lucide-react";
 import { useCallback, useState } from "react";
 import { UserNav } from "./UserNav";
 import { WalletLogo } from "@/components/brand/WalletLogo";
@@ -33,6 +38,24 @@ export function Navbar({ showBrand = true }: NavbarProps) {
   return (
     <>
       <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border/60 bg-background/80 px-4 backdrop-blur-md sm:h-16 sm:px-6">
+        <Tooltip delayDuration={200}>
+          <TooltipTrigger asChild>
+            <Button
+              asChild
+              variant="ghost"
+              size="sm"
+              className="h-9 shrink-0 gap-1.5 px-2 text-muted-foreground hover:text-foreground sm:px-2.5"
+            >
+              <Link to="/projetos">
+                <ArrowLeft className="h-4 w-4" />
+                <span className="hidden sm:inline">Projetos</span>
+                <span className="sr-only sm:hidden">Voltar aos projetos</span>
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Voltar aos projetos</TooltipContent>
+        </Tooltip>
+
         {showBrand && (
           <Link
             to={projectId ? `/project/${projectId}` : "/"}
@@ -47,9 +70,7 @@ export function Navbar({ showBrand = true }: NavbarProps) {
         <div className="min-w-0 flex-1 items-center gap-2 flex">
           {projectName && (
             <>
-              {showBrand && (
-                <span className="hidden h-4 w-px shrink-0 bg-border sm:block" />
-              )}
+              <span className="hidden h-4 w-px shrink-0 bg-border sm:block" />
               <span className="truncate text-sm font-medium text-foreground/80">
                 {projectName}
               </span>

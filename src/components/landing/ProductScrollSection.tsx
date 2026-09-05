@@ -5,8 +5,9 @@ import { DashboardPreview } from "@/components/landing/DashboardPreview";
 export function ProductScrollSection() {
   return (
     <section
+      id="produto"
       aria-labelledby="product-scroll-heading"
-      className="relative border-t border-border/40 bg-gradient-to-b from-transparent via-background/40 to-background"
+      className="relative scroll-mt-4 border-t border-border/40 bg-gradient-to-b from-transparent via-background/40 to-background"
     >
       <ContainerScroll
         titleComponent={

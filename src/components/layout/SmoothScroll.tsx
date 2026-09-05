@@ -6,7 +6,7 @@ type SmoothScrollProps = {
   children: ReactNode;
 };
 
-/** Smooth scroll via Lenis — só na landing; respeita prefers-reduced-motion. */
+/** Smooth scroll via Lenis em todo o app; respeita prefers-reduced-motion. */
 export function SmoothScroll({ children }: SmoothScrollProps) {
   return (
     <ReactLenis
