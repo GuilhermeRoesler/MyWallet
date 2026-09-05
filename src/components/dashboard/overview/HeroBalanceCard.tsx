@@ -66,7 +66,7 @@ export function HeroBalanceCard({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-primary/20 bg-card p-6 shadow-sm md:p-7",
+        "relative overflow-hidden rounded-2xl border border-primary/20 bg-card p-4 shadow-sm sm:p-6 md:p-7",
         "bg-gradient-to-br from-card via-card to-primary/[0.06]",
         className,
       )}
@@ -74,7 +74,7 @@ export function HeroBalanceCard({
       <div className="pointer-events-none absolute -right-8 -top-10 h-40 w-40 rounded-full bg-primary/10 blur-2xl" />
       <div className="pointer-events-none absolute -bottom-12 left-1/3 h-36 w-36 rounded-full bg-primary/5 blur-2xl" />
 
-      <div className="relative flex flex-wrap items-start justify-between gap-4">
+      <div className="relative flex flex-wrap items-start justify-between gap-3 sm:gap-4">
         <div className="space-y-1.5">
           <div className="flex items-center gap-2 text-sm font-medium text-foreground/70">
             <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary/12 text-primary">
@@ -82,15 +82,19 @@ export function HeroBalanceCard({
             </span>
             Saldo total
           </div>
-          <p className="font-display text-4xl font-semibold tracking-tight tabular-nums md:text-5xl">
+          <p className="font-display text-3xl font-semibold tracking-tight tabular-nums sm:text-4xl md:text-5xl">
             {formatCurrency(balance, currency)}
           </p>
           <p className="text-sm text-foreground/65">Em todas as contas ativas</p>
         </div>
-        {sparkline && sparkline.length > 1 && <SparkArea values={sparkline} />}
+        {sparkline && sparkline.length > 1 && (
+          <div className="scale-90 origin-top-right sm:scale-100">
+            <SparkArea values={sparkline} />
+          </div>
+        )}
       </div>
 
-      <div className="relative mt-6 grid gap-3 sm:grid-cols-3">
+      <div className="relative mt-4 grid grid-cols-1 gap-2.5 sm:mt-6 sm:grid-cols-3 sm:gap-3">
         <div className="rounded-xl border border-border/70 bg-background/70 px-3.5 py-3 backdrop-blur-sm">
           <p className="text-xs font-medium text-foreground/60">Gastos do mês</p>
           <p className="mt-0.5 font-display text-lg font-semibold tabular-nums text-destructive">

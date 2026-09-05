@@ -121,20 +121,20 @@ export function TransactionList() {
   return (
     <>
       <Card className="border-border/80 shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between gap-4">
+        <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle className="font-display text-xl font-semibold">
               Todas as transações
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-foreground/65">
               Lista detalhada das movimentações financeiras.
             </CardDescription>
           </div>
-          <Button onClick={openCreateForm}>
+          <Button onClick={openCreateForm} className="w-full shrink-0 sm:w-auto">
             <PlusCircle className="mr-2 h-4 w-4" /> Nova transação
           </Button>
         </CardHeader>
-        <CardContent>
+        <CardContent className="overflow-x-auto">
           {transactions.length === 0 ? (
             <EmptyState
               icon={Receipt}
@@ -150,8 +150,8 @@ export function TransactionList() {
                 <TableRow>
                   <TableHead className="w-[110px]">Data</TableHead>
                   <TableHead>Descrição</TableHead>
-                  <TableHead>Conta</TableHead>
-                  <TableHead>Categoria</TableHead>
+                  <TableHead className="hidden sm:table-cell">Conta</TableHead>
+                  <TableHead className="hidden md:table-cell">Categoria</TableHead>
                   <TableHead className="text-right">Valor</TableHead>
                   <TableHead className="w-[50px]" />
                 </TableRow>
@@ -164,7 +164,7 @@ export function TransactionList() {
                   );
                   return (
                     <TableRow key={transaction.id} className="group">
-                      <TableCell className="text-muted-foreground tabular-nums">
+                      <TableCell className="tabular-nums text-foreground/65">
                         {formatDate(transaction.date)}
                       </TableCell>
                       <TableCell className="font-medium">
@@ -182,15 +182,19 @@ export function TransactionList() {
                                 "h-4 w-4",
                                 transaction.type === "income"
                                   ? "text-success"
-                                  : "text-muted-foreground",
+                                  : "text-foreground/70",
                               )}
                             />
                           </div>
-                          <span>{transaction.description}</span>
+                          <span className="min-w-0 truncate">
+                            {transaction.description}
+                          </span>
                         </div>
                       </TableCell>
-                      <TableCell>{account?.name || "—"}</TableCell>
-                      <TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        {account?.name || "—"}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
                         <Badge variant="outline">
                           {categoryLabel(transaction.category)}
                         </Badge>

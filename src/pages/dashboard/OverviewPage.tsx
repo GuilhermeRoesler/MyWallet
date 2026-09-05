@@ -33,13 +33,13 @@ const OverviewPage = () => {
           <Skeleton className="h-9 w-64" />
           <Skeleton className="mt-2 h-5 w-80" />
         </div>
-        <div className="grid gap-4 lg:grid-cols-[1.35fr_0.9fr]">
+        <div className="grid gap-4 md:grid-cols-[1.35fr_0.9fr]">
           <Skeleton className="h-56 rounded-2xl" />
           <Skeleton className="h-56 rounded-2xl" />
         </div>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <Skeleton className="h-[340px] lg:col-span-2" />
-          <Skeleton className="h-[340px]" />
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <Skeleton className="h-[280px] sm:h-[340px] md:col-span-2" />
+          <Skeleton className="h-[280px] sm:h-[340px]" />
         </div>
       </div>
     );
@@ -56,7 +56,7 @@ const OverviewPage = () => {
         </p>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-[1.35fr_0.9fr] lg:items-stretch">
+      <div className="grid gap-4 md:grid-cols-[1.35fr_0.9fr] md:items-stretch">
         <HeroBalanceCard
           className="animate-rise"
           balance={overview.totalBalance}
@@ -69,8 +69,8 @@ const OverviewPage = () => {
         <InsightBanner stacked />
       </div>
 
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
-        <Card className="overflow-hidden border-border/80 shadow-sm animate-rise-delay-1 lg:col-span-2">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
+        <Card className="overflow-hidden border-border/80 shadow-sm animate-rise-delay-1 md:col-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="font-display text-xl font-semibold">
               Saldo ao longo do tempo

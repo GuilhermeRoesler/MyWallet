@@ -93,8 +93,11 @@ export function AccountList() {
 
   return (
     <>
-      <div className="mb-4 flex justify-end">
-        <Button onClick={openCreateForm}>
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-foreground/65 sm:sr-only">
+          {accounts.length} conta{accounts.length === 1 ? "" : "s"} neste workspace
+        </p>
+        <Button onClick={openCreateForm} className="w-full sm:ml-auto sm:w-auto">
           <PlusCircle className="mr-2 h-4 w-4" />
           Nova conta
         </Button>
@@ -154,7 +157,7 @@ export function AccountList() {
                   </div>
                 </CardHeader>
                 <CardContent className="flex flex-grow flex-col justify-end">
-                  <div className="font-display text-3xl font-semibold tabular-nums tracking-tight">
+                  <div className="font-display text-2xl font-semibold tabular-nums tracking-tight sm:text-3xl">
                     {formatCurrency(
                       Number(account.balance),
                       account.currency || defaultCurrency,
@@ -168,7 +171,7 @@ export function AccountList() {
                         "bg-warning": account.status === "pending",
                       })}
                     />
-                    <span className="text-muted-foreground">
+                    <span className="text-foreground/65">
                       {accountStatusLabel(account.status)}
                     </span>
                   </div>

@@ -99,20 +99,20 @@ export function BudgetList() {
   return (
     <>
       <Card className="border-border/80 shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between gap-4">
+        <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <CardTitle className="font-display text-xl font-semibold">
               Seus orçamentos
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-foreground/65">
               Acompanhe o gasto em relação ao valor alocado neste mês.
             </CardDescription>
           </div>
-          <Button onClick={openCreateForm}>
+          <Button onClick={openCreateForm} className="w-full shrink-0 sm:w-auto">
             <PlusCircle className="mr-2 h-4 w-4" /> Novo orçamento
           </Button>
         </CardHeader>
-        <CardContent>
+        <CardContent className="overflow-x-auto">
           {budgets.length === 0 ? (
             <EmptyState
               icon={PiggyBank}

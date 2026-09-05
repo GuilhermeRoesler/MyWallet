@@ -44,13 +44,13 @@ const ReportsPage = () => {
   );
 
   return (
-    <div className="flex flex-col gap-8 animate-fade-in">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-6 animate-fade-in md:gap-7">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="font-display text-3xl font-semibold tracking-tight">
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground">
             Relatórios
           </h1>
-          <p className="mt-1 text-muted-foreground">
+          <p className="mt-1.5 text-sm text-foreground/70 md:text-base">
             Analise padrões de receita e despesa.
           </p>
         </div>
@@ -61,13 +61,13 @@ const ReportsPage = () => {
         expense={totals.expense}
         periodLabel="No período selecionado"
       />
-      <div className="grid gap-6 lg:grid-cols-5">
-        <div className="lg:col-span-2">
+      <div className="grid gap-5 md:grid-cols-5 md:gap-6">
+        <div className="md:col-span-2">
           <SpendingByCategoryChart
             spendingByCategory={reports.spendingByCategory}
           />
         </div>
-        <div className="lg:col-span-3">
+        <div className="md:col-span-3">
           <ReportDataTable transactions={filteredTransactions} />
         </div>
       </div>

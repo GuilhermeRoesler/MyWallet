@@ -16,7 +16,7 @@ type BalanceChartProps = {
 
 export function BalanceChart({ data, currency = "BRL" }: BalanceChartProps) {
   return (
-    <div className="h-[300px] w-full animate-rise-delay-1">
+    <div className="h-[220px] w-full animate-rise-delay-1 sm:h-[280px] md:h-[300px]">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
           <defs>

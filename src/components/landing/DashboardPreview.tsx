@@ -1,4 +1,5 @@
 import {
+  AlertTriangle,
   BarChart3,
   LayoutDashboard,
   ListChecks,
@@ -30,6 +31,7 @@ export function DashboardPreview({
   className,
 }: DashboardPreviewProps) {
   const immersive = variant === "immersive";
+  const fillId = immersive ? "previewFillImmersive" : "previewFillHero";
 
   return (
     <div
@@ -57,7 +59,7 @@ export function DashboardPreview({
           <span className="h-2.5 w-2.5 rounded-full bg-destructive/40" />
           <span className="h-2.5 w-2.5 rounded-full bg-warning/50" />
           <span className="h-2.5 w-2.5 rounded-full bg-success/45" />
-          <span className="ml-3 font-display text-xs font-medium text-muted-foreground">
+          <span className="ml-3 font-display text-xs font-medium text-foreground/65">
             My Wallet · Visão geral
           </span>
         </div>
@@ -83,100 +85,145 @@ export function DashboardPreview({
               >
                 Olá, Alex
               </p>
-              <p className="text-[11px] text-muted-foreground md:text-xs">
+              <p className="text-[11px] text-foreground/65 md:text-xs">
                 Resumo da saúde financeira
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 md:gap-3">
-              <div className="rounded-xl border bg-card p-2.5 shadow-sm md:p-3.5">
-                <div className="flex items-start justify-between">
-                  <p className="text-[10px] text-muted-foreground">Saldo total</p>
-                  <span className="rounded-md bg-primary/10 p-1">
-                    <Wallet className="h-3 w-3 text-primary" />
-                  </span>
+            {/* Bento: herói + insight — espelha OverviewPage */}
+            <div
+              className={cn(
+                "grid gap-2.5",
+                immersive && "sm:grid-cols-[1.35fr_0.9fr] sm:items-stretch",
+              )}
+            >
+              <div className="relative overflow-hidden rounded-xl border border-primary/20 bg-gradient-to-br from-card via-card to-primary/[0.06] p-3 shadow-sm md:p-3.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 space-y-0.5">
+                    <div className="flex items-center gap-1.5 text-[10px] font-medium text-foreground/65">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-md bg-primary/12 text-primary">
+                        <Wallet className="h-3 w-3" />
+                      </span>
+                      Saldo total
+                    </div>
+                    <p
+                      className={cn(
+                        "font-display font-semibold tabular-nums tracking-tight",
+                        immersive
+                          ? "text-2xl md:text-3xl"
+                          : "text-xl sm:text-2xl",
+                      )}
+                    >
+                      R$&nbsp;51.100
+                    </p>
+                  </div>
+                  <svg
+                    viewBox="0 0 72 28"
+                    className="mt-1 h-7 w-16 shrink-0 text-primary opacity-85 sm:h-8 sm:w-20"
+                  >
+                    <polyline
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      points="0,18 8,20 16,14 24,16 34,10 44,12 52,6 62,8 72,4"
+                    />
+                  </svg>
                 </div>
-                <p
-                  className={cn(
-                    "mt-1 font-display font-semibold tabular-nums",
-                    immersive ? "text-xl md:text-2xl" : "text-base sm:text-lg",
-                  )}
-                >
-                  R$&nbsp;51.100
-                </p>
-                <svg
-                  viewBox="0 0 72 20"
-                  className="mt-1.5 h-4 w-full text-primary opacity-80"
-                >
-                  <polyline
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    points="0,14 12,12 24,15 36,8 48,10 60,4 72,6"
-                  />
-                </svg>
+                <div className="mt-2.5 grid grid-cols-3 gap-1.5">
+                  <div className="rounded-lg border border-border/70 bg-background/70 px-1.5 py-1.5">
+                    <p className="text-[9px] text-foreground/55">Gastos</p>
+                    <p className="font-display text-[11px] font-semibold tabular-nums text-destructive sm:text-xs">
+                      R$&nbsp;5.3k
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-border/70 bg-background/70 px-1.5 py-1.5">
+                    <p className="text-[9px] text-foreground/55">Receitas</p>
+                    <p className="font-display text-[11px] font-semibold tabular-nums text-success sm:text-xs">
+                      R$&nbsp;9.7k
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-border/70 bg-background/70 px-1.5 py-1.5">
+                    <p className="flex items-center gap-0.5 text-[9px] text-foreground/55">
+                      Fluxo
+                      <TrendingUp className="h-2.5 w-2.5 text-success" />
+                    </p>
+                    <p className="font-display text-[11px] font-semibold tabular-nums text-success sm:text-xs">
+                      +R$&nbsp;4.2k
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="rounded-xl border bg-card p-2.5 shadow-sm md:p-3.5">
-                <div className="flex items-start justify-between">
-                  <p className="text-[10px] text-muted-foreground">Fluxo líquido</p>
-                  <span className="rounded-md bg-success/10 p-1">
-                    <TrendingUp className="h-3 w-3 text-success" />
+
+              <div
+                className={cn(
+                  "flex flex-col gap-2",
+                  !immersive && "sm:flex-row",
+                )}
+              >
+                <div className="flex flex-1 items-start gap-2 rounded-xl border border-destructive/25 bg-card p-2.5 shadow-sm">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
+                    <AlertTriangle className="h-3.5 w-3.5" />
                   </span>
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-medium leading-snug">
+                      Restaurantes em 122%
+                    </p>
+                    <p className="mt-0.5 text-[10px] text-foreground/60">
+                      R$ 488 de R$ 400 neste mês.
+                    </p>
+                  </div>
                 </div>
-                <p
-                  className={cn(
-                    "mt-1 font-display font-semibold tabular-nums text-success",
-                    immersive ? "text-xl md:text-2xl" : "text-base sm:text-lg",
-                  )}
-                >
-                  +R$&nbsp;4.2k
-                </p>
-                <p className="mt-1 text-[10px] font-medium text-success">
-                  Positivo no mês
-                </p>
+                <div className="flex flex-1 items-start gap-2 rounded-xl border border-success/25 bg-card p-2.5 shadow-sm">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-success/10 text-success">
+                    <TrendingUp className="h-3.5 w-3.5" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-medium leading-snug">
+                      Fluxo +R$ 4.2k
+                    </p>
+                    <p className="mt-0.5 text-[10px] text-foreground/60">
+                      Receitas acima das despesas.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div className="rounded-xl border bg-card p-2.5 shadow-sm md:p-3.5">
-              <p className="mb-2 text-[10px] font-medium text-muted-foreground">
+              <p className="mb-2 text-[10px] font-medium text-foreground/65">
                 Saldo ao longo do tempo
               </p>
               <svg
                 viewBox="0 0 280 72"
                 className={cn(
                   "w-full",
-                  immersive ? "h-20 sm:h-24 md:h-28" : "h-16 sm:h-[4.5rem]",
+                  immersive ? "h-20 sm:h-24 md:h-28" : "h-14 sm:h-16",
                 )}
               >
                 <defs>
-                  <linearGradient
-                    id={immersive ? "previewFillImmersive" : "previewFillHero"}
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
+                  <linearGradient id={fillId} x1="0" y1="0" x2="0" y2="1">
                     <stop
                       offset="0%"
-                      stopColor="hsl(168 78% 24%)"
+                      stopColor="hsl(var(--primary))"
                       stopOpacity="0.28"
                     />
                     <stop
                       offset="100%"
-                      stopColor="hsl(168 78% 24%)"
+                      stopColor="hsl(var(--primary))"
                       stopOpacity="0"
                     />
                   </linearGradient>
                 </defs>
                 <path
-                  d="M0,52 C30,48 50,55 80,42 C110,28 130,38 160,30 C190,22 220,35 250,18 L280,22 L280,72 L0,72 Z"
-                  fill={`url(#${immersive ? "previewFillImmersive" : "previewFillHero"})`}
+                  d="M0,52 C20,48 35,56 55,40 C75,26 95,44 120,32 C140,22 155,38 175,18 C195,8 220,28 245,12 L280,16 L280,72 L0,72 Z"
+                  fill={`url(#${fillId})`}
                 />
                 <path
-                  d="M0,52 C30,48 50,55 80,42 C110,28 130,38 160,30 C190,22 220,35 250,18 L280,22"
+                  d="M0,52 C20,48 35,56 55,40 C75,26 95,44 120,32 C140,22 155,38 175,18 C195,8 220,28 245,12 L280,16"
                   fill="none"
-                  stroke="hsl(168 78% 24%)"
+                  stroke="hsl(var(--primary))"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   className="animate-draw-line"
@@ -184,36 +231,40 @@ export function DashboardPreview({
               </svg>
             </div>
 
-            <div className="rounded-xl border bg-card p-2.5 shadow-sm md:p-3.5">
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-[10px] font-medium text-muted-foreground">
-                  Orçamentos
-                </p>
-                <span className="rounded-full bg-destructive/10 px-1.5 py-0.5 text-[9px] font-medium text-destructive">
-                  1 estourado
-                </span>
-              </div>
-              <div className="space-y-2">
-                {[
-                  { label: "Moradia", pct: 88, tone: "bg-primary" },
-                  { label: "Restaurantes", pct: 100, tone: "bg-destructive" },
-                  { label: "Alimentação", pct: 91, tone: "bg-primary" },
-                ].map((row) => (
-                  <div key={row.label} className="space-y-1">
-                    <div className="flex justify-between text-[10px]">
-                      <span className="text-muted-foreground">{row.label}</span>
-                      <span className="font-medium tabular-nums">{row.pct}%</span>
+            {immersive && (
+              <div className="rounded-xl border bg-card p-2.5 shadow-sm md:p-3.5">
+                <div className="mb-2 flex items-center justify-between">
+                  <p className="text-[10px] font-medium text-foreground/65">
+                    Orçamentos
+                  </p>
+                  <span className="rounded-full bg-destructive/10 px-1.5 py-0.5 text-[9px] font-medium text-destructive">
+                    1 estourado
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { label: "Moradia", pct: 88, tone: "bg-primary" },
+                    { label: "Restaurantes", pct: 100, tone: "bg-destructive" },
+                    { label: "Alimentação", pct: 91, tone: "bg-primary" },
+                  ].map((row) => (
+                    <div key={row.label} className="space-y-1">
+                      <div className="flex justify-between text-[10px]">
+                        <span className="text-foreground/60">{row.label}</span>
+                        <span className="font-medium tabular-nums">
+                          {row.pct}%
+                        </span>
+                      </div>
+                      <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                        <div
+                          className={`h-full rounded-full ${row.tone} animate-bar-fill`}
+                          style={{ width: `${Math.min(row.pct, 100)}%` }}
+                        />
+                      </div>
                     </div>
-                    <div className="h-1.5 overflow-hidden rounded-full bg-muted">
-                      <div
-                        className={`h-full rounded-full ${row.tone} animate-bar-fill`}
-                        style={{ width: `${Math.min(row.pct, 100)}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div
@@ -228,7 +279,9 @@ export function DashboardPreview({
                   key={i}
                   className={cn(
                     "flex items-center justify-center rounded-lg border",
-                    immersive ? "h-7 w-7 sm:h-8 sm:w-8" : "h-6 w-6 sm:h-7 sm:w-7",
+                    immersive
+                      ? "h-7 w-7 sm:h-8 sm:w-8"
+                      : "h-6 w-6 sm:h-7 sm:w-7",
                     i === 0
                       ? "border-primary/35 bg-primary text-primary-foreground"
                       : "border-transparent bg-muted/70 text-muted-foreground",

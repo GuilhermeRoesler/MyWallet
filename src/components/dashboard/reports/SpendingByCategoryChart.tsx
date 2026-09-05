@@ -98,7 +98,7 @@ export function SpendingByCategoryChart({
                 </PieChart>
               </ResponsiveContainer>
               <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-                <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                <p className="text-[10px] font-medium uppercase tracking-wide text-foreground/55">
                   Total
                 </p>
                 <p className="font-display text-sm font-semibold tabular-nums">
@@ -138,7 +138,7 @@ export function SpendingByCategoryChart({
                           }}
                         />
                       </div>
-                      <span className="w-8 shrink-0 text-right text-[11px] tabular-nums text-muted-foreground">
+                      <span className="w-8 shrink-0 text-right text-[11px] tabular-nums text-foreground/55">
                         {pct.toFixed(0)}%
                       </span>
                     </div>
