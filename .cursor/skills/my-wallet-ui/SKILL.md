@@ -73,9 +73,9 @@ Preferir toasts nos stores para mutações compartilhadas; na UI só quando for 
 
 ## Layout do dashboard
 
-- `DashboardLayout` + `SidebarNav` + `Navbar` / `UserNav`
+- `DashboardLayout` + `AppDock` + `Navbar` / `UserNav`
 - Rotas filhas via `<Outlet />`
-- Manter navegação alinhada com paths em `App.tsx`
+- Manter navegação alinhada com paths em `App.tsx` e `nav-items.ts`
 
 ## Checklist de novo feature UI
 

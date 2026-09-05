@@ -50,7 +50,7 @@ Referência: `src/styles/themes/light.css`.
 2. `@import` em `src/globals.css`
 3. Entrada em `themes` em `src/lib/themes.ts` (`name`, `value` = slug/classe, `swatch`)
 4. Verificar `ThemeSwitcher` / `AppearanceForm` (devem iterar `themes` automaticamente)
-5. Testar overview, sidebar, charts e forms no tema novo
+5. Testar overview, dock, charts e forms no tema novo
 
 ## Remover ou renomear
 

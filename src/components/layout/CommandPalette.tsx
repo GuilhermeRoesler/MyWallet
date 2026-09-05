@@ -7,26 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  LayoutDashboard,
-  Wallet,
-  ListChecks,
-  PiggyBank,
-  BarChart,
-  Settings,
-  Folders,
-  Search,
-  type LucideIcon,
-} from "lucide-react";
+import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-type CommandItem = {
-  id: string;
-  title: string;
-  hint?: string;
-  href: string;
-  icon: LucideIcon;
-};
+import { getCommandNavItems } from "./nav-items";
 
 type CommandPaletteProps = {
   open: boolean;
@@ -39,60 +22,10 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const items = useMemo<CommandItem[]>(() => {
-    const base = projectId ? `/project/${projectId}` : "/projetos";
-    return [
-      {
-        id: "overview",
-        title: "Visão geral",
-        hint: "Dashboard",
-        href: base,
-        icon: LayoutDashboard,
-      },
-      {
-        id: "accounts",
-        title: "Contas",
-        hint: "Saldos e tipos",
-        href: `${base}/accounts`,
-        icon: Wallet,
-      },
-      {
-        id: "transactions",
-        title: "Transações",
-        hint: "Receitas e despesas",
-        href: `${base}/transactions`,
-        icon: ListChecks,
-      },
-      {
-        id: "budgets",
-        title: "Orçamentos",
-        hint: "Limites por categoria",
-        href: `${base}/budgets`,
-        icon: PiggyBank,
-      },
-      {
-        id: "reports",
-        title: "Relatórios",
-        hint: "Análise do período",
-        href: `${base}/reports`,
-        icon: BarChart,
-      },
-      {
-        id: "settings",
-        title: "Configurações",
-        hint: "Aparência e perfil",
-        href: `${base}/settings`,
-        icon: Settings,
-      },
-      {
-        id: "projects",
-        title: "Projetos",
-        hint: "Trocar de workspace",
-        href: "/projetos",
-        icon: Folders,
-      },
-    ];
-  }, [projectId]);
+  const items = useMemo(
+    () => getCommandNavItems(projectId),
+    [projectId],
+  );
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

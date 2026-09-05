@@ -9,21 +9,24 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useDashboardStore } from "@/store/dashboardStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function UserNav() {
   const navigate = useNavigate();
+  const { projectId } = useParams<{ projectId: string }>();
   const { data } = useDashboardStore();
   const user = data?.user;
   const projectName = data?.project.name;
 
   const getInitials = (name: string = "") => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2) || "MW";
+    return (
+      name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2) || "MW"
+    );
   };
 
   return (
@@ -50,6 +53,13 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        {projectId && (
+          <DropdownMenuItem
+            onClick={() => navigate(`/project/${projectId}/settings`)}
+          >
+            Configurações
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={() => navigate("/projetos")}>
           Trocar de projeto
         </DropdownMenuItem>

@@ -36,7 +36,7 @@ src/
   pages/                 # Landing, Projects, dashboard/*, NotFound
   components/
     ui/                  # Shadcn primitivos
-    layout/              # DashboardLayout, Navbar, Sidebar, CommandPalette
+    layout/              # DashboardLayout, Navbar, AppDock, CommandPalette
     dashboard/           # Features por domínio (accounts, budgets, …)
     projects/            # CRUD de projetos + ProjectRoute
     landing/             # Preview da landing
@@ -84,6 +84,6 @@ CI: `.github/workflows/ci.yml` (PR / branches). Deploy Pages: `.github/workflows
 
 ## Ao estender o produto
 
-- Nova página de dashboard → rota em `App.tsx` + item em `SidebarNav` + pasta em `components/dashboard/`
+- Nova página de dashboard → rota em `App.tsx` + item em `nav-items.ts` / `AppDock` + pasta em `components/dashboard/`
 - Novo domínio de dados → tipo em `types.ts` + persistência no `Project` + ações no store adequado
 - Não adicionar dependências pesadas sem necessidade clara no contexto de demo local
