@@ -113,7 +113,7 @@ export default function ProjectsPage() {
       <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
         <Link
           to="/"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground animate-fade-in"
+          className="mb-8 inline-flex items-center gap-2 text-sm text-foreground/70 transition-colors hover:text-foreground animate-fade-in"
         >
           <ArrowLeft className="h-4 w-4" />
           Voltar ao início
@@ -127,10 +127,10 @@ export default function ProjectsPage() {
                 My Wallet
               </span>
             </div>
-            <h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl lg:text-5xl">
               Seus projetos financeiros
             </h1>
-            <p className="max-w-xl text-muted-foreground text-balance">
+            <p className="max-w-xl text-foreground/70 text-balance md:text-lg">
               Escolha um workspace para continuar. Cada projeto mantém contas,
               orçamentos e preferências próprios.
             </p>
@@ -192,7 +192,7 @@ export default function ProjectsPage() {
                                 Demo
                               </Badge>
                             )}
-                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                            <span className="text-[10px] font-medium uppercase tracking-wider text-foreground/60">
                               {theme.name}
                             </span>
                           </div>
@@ -242,28 +242,45 @@ export default function ProjectsPage() {
                   middleContent={
                     <div className="space-y-3 px-1 pt-2">
                       <div
-                        className="h-12 overflow-hidden rounded-xl"
+                        className="relative h-20 overflow-hidden rounded-xl border border-black/5 p-2.5 shadow-inner"
                         style={{ background: theme.swatch.background }}
                         aria-hidden
                       >
+                        <div className="flex gap-1.5">
+                          <div className="h-7 flex-1 rounded-md bg-white/90 shadow-sm">
+                            <div
+                              className="mt-1.5 ml-1.5 h-1 w-8 rounded-full"
+                              style={{ background: theme.swatch.primary }}
+                            />
+                          </div>
+                          <div className="h-7 flex-1 rounded-md bg-white/80 shadow-sm" />
+                        </div>
+                        <div className="mt-2 h-6 rounded-md bg-white/75 p-1 shadow-sm">
+                          <div
+                            className="h-full w-4/5 rounded-sm opacity-80"
+                            style={{
+                              background: `linear-gradient(90deg, ${theme.swatch.primary}66, transparent)`,
+                            }}
+                          />
+                        </div>
                         <div
-                          className="h-full w-[30%]"
+                          className="absolute bottom-0 right-0 h-10 w-10 rounded-tl-2xl opacity-40"
                           style={{ background: theme.swatch.accent }}
                         />
                       </div>
-                      <p className="line-clamp-2 text-sm text-muted-foreground">
+                      <p className="line-clamp-2 text-sm text-foreground/70">
                         {project.description || "Sem descrição."}
                       </p>
                     </div>
                   }
                   bottomContent={
                     <div className="space-y-2.5">
-                      <p className="tabular-nums text-xs text-muted-foreground">
+                      <p className="tabular-nums text-xs font-medium text-foreground/70">
                         {project.accounts.length} contas ·{" "}
                         {project.transactions.length} transações ·{" "}
                         {project.budgets.length} orçamentos
                       </p>
-                      <p className="text-[11px] text-muted-foreground/80">
+                      <p className="text-[11px] text-foreground/55">
                         Atualizado em{" "}
                         {format(new Date(project.updatedAt), "dd MMM yyyy", {
                           locale: ptBR,

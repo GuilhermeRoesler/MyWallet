@@ -8,6 +8,7 @@ import {
   Wallet,
   type LucideIcon,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,7 +27,10 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { dismissDemoIntro } from "@/lib/demo-intro";
+import { themes } from "@/lib/themes";
 import { cn } from "@/lib/utils";
+import { useDashboardStore } from "@/store/dashboardStore";
+import { useProjectStore } from "@/store/projectStore";
 
 export type DemoIntroStep = {
   title: string;
@@ -34,6 +38,8 @@ export type DemoIntroStep = {
   detail: string;
   icon: LucideIcon;
   tone: string;
+  /** Mostra seletor de temas ao vivo neste passo. */
+  liveThemes?: boolean;
 };
 
 const DEFAULT_STEPS: DemoIntroStep[] = [
@@ -65,9 +71,10 @@ const DEFAULT_STEPS: DemoIntroStep[] = [
     title: "Aparência",
     short: "Temas curados sob medida",
     detail:
-      "Troque entre Atelier, Noite, Menta e outros sem sair do projeto. Preferência salva localmente.",
+      "Toque em um tema abaixo e veja o app inteiro mudar agora — a escolha fica salva neste workspace.",
     icon: Palette,
     tone: "bg-warning/15 text-warning",
+    liveThemes: true,
   },
 ];
 
@@ -77,6 +84,58 @@ type DemoIntroTourProps = {
   steps?: DemoIntroStep[];
   onComplete?: () => void;
 };
+
+function LiveThemePicker() {
+  const { theme, setTheme } = useTheme();
+  const projectId = useDashboardStore((s) => s.projectId);
+  const loadProject = useDashboardStore((s) => s.loadProject);
+  const updateProjectSettings = useProjectStore((s) => s.updateProjectSettings);
+
+  const handleSelect = (value: string) => {
+    setTheme(value);
+    if (projectId) {
+      updateProjectSettings(projectId, { theme: value });
+      loadProject(projectId);
+    }
+  };
+
+  return (
+    <div className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-6">
+      {themes.map((t) => {
+        const selected = theme === t.value;
+        return (
+          <button
+            key={t.value}
+            type="button"
+            onClick={() => handleSelect(t.value)}
+            className={cn(
+              "group flex flex-col items-center gap-1.5 rounded-xl border p-2 transition-all",
+              selected
+                ? "border-primary bg-primary/8 ring-2 ring-primary/30"
+                : "border-border/70 hover:border-foreground/20 hover:bg-muted/50",
+            )}
+            title={t.name}
+          >
+            <span
+              className="flex h-8 w-full overflow-hidden rounded-lg border border-black/5"
+              aria-hidden
+            >
+              <span className="w-1/3" style={{ background: t.swatch.primary }} />
+              <span className="w-1/3" style={{ background: t.swatch.accent }} />
+              <span
+                className="w-1/3"
+                style={{ background: t.swatch.background }}
+              />
+            </span>
+            <span className="text-[10px] font-medium leading-none text-foreground/80">
+              {t.name}
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 function TourBody({
   steps,
@@ -110,7 +169,8 @@ function TourBody({
       <div
         className={cn(
           "grid flex-1 gap-4",
-          !compact && "md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:gap-6"
+          !compact &&
+            "md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:gap-6",
         )}
       >
         <div className="space-y-2">
@@ -127,13 +187,13 @@ function TourBody({
                   "flex w-full items-start gap-3 rounded-xl border px-3 py-2.5 text-left transition-colors",
                   active
                     ? "border-border bg-muted"
-                    : "border-transparent hover:bg-muted/60"
+                    : "border-transparent hover:bg-muted/60",
                 )}
               >
                 <span
                   className={cn(
                     "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
-                    item.tone
+                    item.tone,
                   )}
                 >
                   <TabIcon className="h-4 w-4" />
@@ -145,7 +205,7 @@ function TourBody({
                       <Check className="h-3.5 w-3.5 text-primary" aria-hidden />
                     )}
                   </span>
-                  <span className="mt-0.5 block text-xs text-muted-foreground line-clamp-2">
+                  <span className="mt-0.5 block text-xs text-foreground/65 line-clamp-2">
                     {item.short}
                   </span>
                 </span>
@@ -167,7 +227,7 @@ function TourBody({
             <div
               className={cn(
                 "mb-4 flex h-12 w-12 items-center justify-center rounded-2xl",
-                step.tone
+                step.tone,
               )}
             >
               <Icon className="h-6 w-6" />
@@ -175,15 +235,20 @@ function TourBody({
             <h3 className="font-display text-xl font-semibold tracking-tight md:text-2xl">
               {step.title}
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
+            <p className="mt-2 text-sm leading-relaxed text-foreground/70 md:text-base">
               {step.detail}
             </p>
+            {step.liveThemes && <LiveThemePicker />}
           </motion.div>
         </AnimatePresence>
       </div>
 
       <div className="mt-5 flex items-center justify-between gap-3 border-t border-border/60 pt-4">
-        <Button variant="ghost" className="rounded-full text-muted-foreground" onClick={onSkip}>
+        <Button
+          variant="ghost"
+          className="rounded-full text-foreground/65"
+          onClick={onSkip}
+        >
           Pular
         </Button>
         <div className="flex gap-2">
@@ -210,7 +275,6 @@ export function DemoIntroTour({
   const isMobile = useIsMobile();
   const [session, setSession] = useState(0);
 
-  // Remount tour body whenever the dialog opens so steps restart cleanly
   const handleOpenChange = (next: boolean) => {
     if (next) setSession((s) => s + 1);
     onOpenChange(next);
@@ -247,7 +311,7 @@ function DemoIntroTourSession({
 
   const goNext = () => {
     setCompleted((prev) =>
-      prev.includes(current) ? prev : [...prev, current]
+      prev.includes(current) ? prev : [...prev, current],
     );
     if (current < steps!.length - 1) {
       setDirection(1);

@@ -1,17 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  CreditCard,
-  TrendingUp,
-  Wallet,
-  ArrowDownCircle,
-} from "lucide-react";
 import { RecentTransactionsCard } from "@/components/dashboard/overview/RecentTransactionsCard";
 import { InsightBanner } from "@/components/dashboard/overview/InsightBanner";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { Skeleton } from "@/components/ui/skeleton";
-import { KpiCard } from "@/components/dashboard/overview/KpiCard";
 import { BalanceChart } from "@/components/dashboard/overview/BalanceChart";
-import { formatChartDate, formatCurrency } from "@/lib/format";
+import { HeroBalanceCard } from "@/components/dashboard/overview/HeroBalanceCard";
+import { formatChartDate } from "@/lib/format";
 
 const OverviewPage = () => {
   const { data: dashboardData, isLoading } = useDashboardStore();
@@ -34,82 +28,49 @@ const OverviewPage = () => {
 
   if (isLoading || !overview) {
     return (
-      <div className="flex flex-col gap-8 animate-fade-in">
+      <div className="flex flex-col gap-6 animate-fade-in">
         <div>
           <Skeleton className="h-9 w-64" />
-          <Skeleton className="h-5 w-80 mt-2" />
+          <Skeleton className="mt-2 h-5 w-80" />
         </div>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Skeleton className="h-20" />
-          <Skeleton className="h-20" />
+        <div className="grid gap-4 lg:grid-cols-[1.35fr_0.9fr]">
+          <Skeleton className="h-56 rounded-2xl" />
+          <Skeleton className="h-56 rounded-2xl" />
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Skeleton className="h-32" />
-          <Skeleton className="h-32" />
-          <Skeleton className="h-32" />
-          <Skeleton className="h-32" />
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Skeleton className="h-[380px] lg:col-span-2" />
-          <Skeleton className="h-[380px]" />
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <Skeleton className="h-[340px] lg:col-span-2" />
+          <Skeleton className="h-[340px]" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6 md:gap-7">
       <div className="animate-rise">
-        <h1 className="font-display text-3xl font-semibold tracking-tight md:text-4xl">
+        <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
           Olá, {ownerName}
         </h1>
-        <p className="mt-1 text-muted-foreground">
+        <p className="mt-1.5 text-sm text-foreground/70 md:text-base">
           Resumo da saúde financeira deste projeto.
         </p>
       </div>
 
-      <InsightBanner />
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <KpiCard
+      <div className="grid gap-4 lg:grid-cols-[1.35fr_0.9fr] lg:items-stretch">
+        <HeroBalanceCard
           className="animate-rise"
-          title="Saldo total"
-          value={formatCurrency(overview.totalBalance, currency)}
-          hint="Em todas as contas"
-          icon={Wallet}
-          tone="primary"
+          balance={overview.totalBalance}
+          monthlyExpense={overview.monthlyExpense}
+          monthlyIncome={overview.monthlyIncome}
+          netFlow={netFlow}
+          currency={currency}
           sparkline={balanceSeries}
         />
-        <KpiCard
-          className="animate-rise-delay-1"
-          title="Gastos do mês"
-          value={formatCurrency(overview.monthlyExpense, currency)}
-          hint="Despesas até agora"
-          icon={CreditCard}
-          tone="danger"
-        />
-        <KpiCard
-          className="animate-rise-delay-2"
-          title="Receitas do mês"
-          value={formatCurrency(overview.monthlyIncome, currency)}
-          hint="Entradas até agora"
-          icon={ArrowDownCircle}
-          tone="success"
-        />
-        <KpiCard
-          className="animate-rise-delay-3"
-          title="Fluxo líquido"
-          value={formatCurrency(netFlow, currency)}
-          hint="Receitas − despesas"
-          icon={TrendingUp}
-          tone={netFlow >= 0 ? "success" : "danger"}
-          delta={netFlow >= 0 ? "Positivo no mês" : "Negativo no mês"}
-          deltaPositive={netFlow >= 0}
-        />
+        <InsightBanner stacked />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2 border-border/80 shadow-sm animate-rise-delay-1 overflow-hidden">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3 lg:gap-6">
+        <Card className="overflow-hidden border-border/80 shadow-sm animate-rise-delay-1 lg:col-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="font-display text-xl font-semibold">
               Saldo ao longo do tempo

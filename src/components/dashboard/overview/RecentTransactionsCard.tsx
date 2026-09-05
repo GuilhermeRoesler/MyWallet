@@ -63,7 +63,7 @@ export function RecentTransactionsCard() {
                   <p className="truncate font-medium leading-tight">
                     {transaction.description}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-xs text-foreground/60">
                     {formatDate(transaction.date)}
                   </p>
                 </div>

@@ -6,7 +6,12 @@ import { formatCurrency } from "@/lib/format";
 import { categoryLabel } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
-export function InsightBanner() {
+type InsightBannerProps = {
+  /** Empilha os cards (útil na coluna lateral do bento). */
+  stacked?: boolean;
+};
+
+export function InsightBanner({ stacked = false }: InsightBannerProps) {
   const { projectId } = useParams<{ projectId: string }>();
   const { data } = useDashboardStore();
   if (!data?.overview || !data.budgets) return null;
@@ -67,7 +72,12 @@ export function InsightBanner() {
   const visible = cards.slice(0, 2);
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 animate-rise-delay-1">
+    <div
+      className={cn(
+        "grid gap-3 animate-rise-delay-1",
+        stacked ? "grid-cols-1 h-full" : "sm:grid-cols-2",
+      )}
+    >
       {visible.map((card) => {
         const Icon = card.icon;
         const content = (
@@ -83,8 +93,10 @@ export function InsightBanner() {
               <Icon className="h-4 w-4" />
             </div>
             <div className="min-w-0 space-y-0.5">
-              <p className="text-sm font-medium leading-snug">{card.title}</p>
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <p className="text-sm font-medium leading-snug text-foreground">
+                {card.title}
+              </p>
+              <p className="text-xs leading-relaxed text-foreground/65">
                 {card.description}
               </p>
             </div>
@@ -92,8 +104,9 @@ export function InsightBanner() {
         );
 
         const className = cn(
-          "flex items-start gap-3 rounded-xl border bg-card/90 p-4 shadow-sm transition-all duration-300",
+          "flex items-start gap-3 rounded-xl border bg-card p-4 shadow-sm transition-all duration-300",
           "hover:-translate-y-0.5 hover:shadow-md",
+          stacked && "flex-1",
           card.tone === "danger" && "border-destructive/25",
           card.tone === "success" && "border-success/25",
           card.tone === "primary" && "border-primary/20",
